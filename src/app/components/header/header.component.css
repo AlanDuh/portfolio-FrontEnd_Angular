@@ -1,0 +1,11 @@
+header {
+    background-color: #ddd559;
+}
+
+.btnText {
+    margin-left: 1em;
+}
+
+.offcanvas {
+    width: max-content;
+}
