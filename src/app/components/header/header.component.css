@@ -9,3 +9,7 @@ header {
 .offcanvas {
     width: max-content;
 }
+
+.logButton {
+    cursor: pointer;
+}

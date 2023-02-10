@@ -1,0 +1,23 @@
+<ng-template aria-labelledby="LogIn-modal-label" #logInModal let-modal>
+    <div class="modal-header justify-content-between align-items-center">
+        <div style="width: 1em; height: 1em;" class="m-2"></div>
+        <h1 class="modal-title fs-5 text-center" id="LogIn-modal-label">Inicia sesión de administrador</h1>
+        <button type="button" class="btn-close m-0" id="LogIn-cancel" (click)="modal.close()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="mb-3">
+                <label class="form-label" for="logIn-name">Nombre de usuario:</label>
+                <input class="form-control" name="name" type="text" id="logIn-name" [(ngModel)]="nameInput">
+            </div>
+            <div class="mb-1">
+                <label class="form-label" for="logIn-password">Contraseña:</label>
+                <input class="form-control" name="password" type="password" id="logIn-password" [(ngModel)]="passInput">
+            </div>
+        </form>
+    </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="logIn-button" (click)="verifyData(modal)">Iniciar sesión</button>
+    </div>
+</ng-template>
+<div id="modalDropper">{{setModal(logInModal)}}</div>
