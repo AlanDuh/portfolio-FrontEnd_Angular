@@ -1,0 +1,8 @@
+<div *ngIf="alerts.length > 0 || toDeleteMd" class="d-none d-md-block fixed-top w-25 alerts-container p-3" id="alerts-container-md">
+    <ngb-alert *ngFor="let alert of alerts" [type]="alert.type" (closed)="alertsService.deleteAlert(alert, false)">{{alert.message}}</ngb-alert>
+    <ngb-alert *ngIf="toDeleteMd" #_toDeleteMd [type]="toDeleteMd.type" (closed)="toDeleteMd = undefined">{{toDeleteMd.message}}</ngb-alert>
+</div>
+<div *ngIf="lastAlert || toDeleteSm" class="d-block d-md-none fixed-top alerts-container p-3">
+    <ngb-alert *ngIf="lastAlert" [type]="lastAlert.type" (closed)="alertsService.deleteAlert(lastAlert, false)">{{lastAlert.message}}</ngb-alert>
+    <ngb-alert *ngIf="toDeleteSm && alerts.length === 0" #_toDeleteSm [type]="toDeleteSm.type" (closed)="toDeleteSm = undefined">{{toDeleteSm.message}}</ngb-alert>
+</div>

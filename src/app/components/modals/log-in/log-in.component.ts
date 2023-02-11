@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { LogInService } from 'src/app/services/modals/log-in.service';
+import { AlertsService } from 'src/app/services/alerts.service';
 
 @Component({
   selector: 'app-log-in',
@@ -13,7 +14,8 @@ export class LogInComponent {
   passInput:string = '';
 
   constructor (
-    private logInService:LogInService
+    private logInService:LogInService,
+    private alerts:AlertsService
   ) {}
 
   async verifyData(modal:any):Promise<void> {
@@ -21,7 +23,9 @@ export class LogInComponent {
       name: this.nameInput,
       pass: this.passInput
     });
-    if (tryToLog) modal.close();
+    if (tryToLog) {
+      modal.close();
+    }
   }
 
   setModal(modal:any):void {

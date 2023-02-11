@@ -16,7 +16,7 @@ export class HeaderComponent {
 
   constructor(
     private accountSettings:AccountSettingsService,
-    private logInService:LogInService
+    public logInService:LogInService
   ) {
     this.subscription = accountSettings.onChange().subscribe(value => this.loged = value);
   }

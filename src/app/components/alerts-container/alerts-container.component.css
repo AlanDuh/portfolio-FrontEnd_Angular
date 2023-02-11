@@ -1,0 +1,9 @@
+.alerts-container {
+    height: 0;
+    top: 40px;
+    z-index: 10000;
+}
+
+#alerts-container-md {
+    left: 75%;
+}
