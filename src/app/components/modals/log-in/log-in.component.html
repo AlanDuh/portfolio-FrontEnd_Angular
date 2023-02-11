@@ -16,8 +16,11 @@
             </div>
         </form>
     </div>
-        <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="logIn-button" (click)="verifyData(modal)">Iniciar sesión</button>
+    <div class="modal-footer justify-content-center">
+        <button type="button" class="btn" [ngClass]="{'btn-primary':!checking,'disabled':checking,'border-0':checking}" id="logIn-button" (click)="verifyData(modal)">
+            <span *ngIf="!checking">Iniciar sesión</span>
+            <i *ngIf="checking" class="fa-solid fa-hurricane fa-spin text-muted"></i>
+        </button>
     </div>
 </ng-template>
 <div id="modalDropper">{{setModal(logInModal)}}</div>
