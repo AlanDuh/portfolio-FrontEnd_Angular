@@ -1,0 +1,55 @@
+<section class="position-relative">
+    <div class="position-absolute extra" id="About-section"></div>
+    <div class="shadow-sm overflow-hidden position-relative">
+        <div *ngIf="bannerImages.length===0" class="banner"></div>
+        <img *ngIf="bannerImages.length===1" [src]="bannerImages[0]" class="w-100 banner object-fit-cover" alt="bannerImage-0">
+        <div *ngIf="bannerImages.length>1" id="banner-carousel" class="carousel slide w-100 banner" data-bs-ride="carousel">
+            <div class="carousel-inner w-100 h-100">
+                <div *ngFor="let img of bannerImages" class="carousel-item w-100 h-100" [ngClass]="{'active':bannerImages.indexOf(img)===0}">
+                    <img [src]="img" class="d-block w-100 h-100 object-fit-cover" [alt]="'bannerImage-'+bannerImages.indexOf(img)">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#banner-carousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#banner-carousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <div class="d-none d-md-flex position-absolute bottom-0 start-0 w-100 bg-dark bg-opacity-75">
+            <div class="col-5 d-flex align-items-center justify-content-center">
+                <div class="photo-container m-3 ratio ratio-1x1 rounded-circle border overflow-hidden">
+                    <img *ngIf="photo" [src]="photo" alt="Alan Duhalde - Photo" class="w-100 h-100 object-fit-cover">
+                </div>
+                <h1 class="title-container fw-bold fs-5 text-white">Alan Duhalde<br>{{title}}</h1>
+            </div>
+            <div class="col-7 text-center text-white d-flex align-items-center p-3">
+                <p class="m-0">
+                    <i>
+                        {{description}}
+                    </i>
+                </p>
+            </div>
+            <button *ngIf="loged" style="z-index: 10000;" type="button" (click)="comprobar()" class="btn border-0 position-absolute top-0 end-0" title="Editar">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+        </div>
+        <div class="d-md-none m-3 position-relative">
+            <div class="w-100 d-flex justify-content-center">
+                <div class="photo-container ratio ratio-1x1 rounded-circle border overflow-hidden">
+                    <img *ngIf="photo" [src]="photo" alt="Alan Duhalde - Photo" class="w-100 h-100 object-fit-cover"></div>
+            </div>
+            <h1 class="title-container fw-bold fs-3 text-center py-3 m-0">Alan Duhalde<br>{{title}}</h1>
+            <p class="m-0 text-center py-3">
+                <i>
+                    {{description}}
+                </i>
+            </p>
+            <button *ngIf="loged" type="button" (click)="comprobar()" class="btn border-0 position-absolute top-0 end-0" title="Editar">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+        </div>
+    </div>
+</section>

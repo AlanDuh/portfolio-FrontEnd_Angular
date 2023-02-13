@@ -25,6 +25,6 @@ export class LogInService {
   }
 
   openModal() {
-    this.modalService.open(this.modal, {backdrop: 'static'});
+    this.modalService.open(this.modal, {backdrop: 'static', keyboard: false});
   }
 }

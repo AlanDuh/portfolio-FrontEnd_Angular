@@ -3,11 +3,7 @@ import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 
 import { AlertsService } from 'src/app/services/alerts.service';
-
-interface Alert {
-  type:string,
-  message:string
-}
+import { Alert } from 'src/app/interfaces';
 
 @Component({
   selector: 'app-alerts-container',

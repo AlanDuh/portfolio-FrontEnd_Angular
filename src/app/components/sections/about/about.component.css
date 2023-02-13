@@ -1,0 +1,16 @@
+.banner {
+    height: calc(100vh - 40px);
+}
+
+.photo-container {
+    flex-basis: 150px;
+}
+
+button {
+    color: rgba(var(--bs-warning-rgb));
+    transition: color 0.5s;
+}
+
+button:hover {
+    color: #999;
+}
