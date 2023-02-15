@@ -1,7 +1,7 @@
 <div class="modal-header justify-content-between align-items-center">
     <div style="width: 1em; height: 1em;" class="m-2"></div>
     <h1 class="modal-title fs-5 text-center" id="owner-edit-label">Editar Información</h1>
-    <button (click)="activeModal.close()" type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+    <button (click)="activeModal.close()" [ngClass]="{'disabled':checking}" type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 <div class="modal-body text-muted">
     <form style="font-size: .75em;">
@@ -39,7 +39,8 @@
         </div>
     </form>
 </div>
-<div class="modal-footer">
-    <button (click)="activeModal.close()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-    <button (click)="save()" type="button" id="owner-saver" class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
+<div class="modal-footer position-relative">
+    <button (click)="activeModal.close()" type="button" class="btn btn-secondary" data-bs-dismiss="modal" [ngClass]="{'opacity-0':checking,'disabled':checking}">Cancelar</button>
+    <button (click)="save()" type="button" id="owner-saver" class="btn btn-primary" data-bs-dismiss="modal" [ngClass]="{'opacity-0':checking,'disabled':checking}">Guardar</button>
+    <span *ngIf="checking" class="d-block position-absolute top-50 start-50 translate-middle text-muted"><i class="fa-solid fa-hurricane fa-spin text-muted"></i></span>
 </div>

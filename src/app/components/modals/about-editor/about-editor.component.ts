@@ -21,6 +21,7 @@ export class AboutEditorComponent implements OnInit {
   photoSrc?:string;
   bannerImages:StoredImage[] = [];
   bannerSrc?:string;
+  checking:boolean = false;
 
   constructor (
     public activeModal: NgbActiveModal,
@@ -100,6 +101,7 @@ export class AboutEditorComponent implements OnInit {
   }
 
   async save() {
+    this.checking = true;
     if (this.validTitle && this.validDescription) {
       let newOwnerInfo:OwnerInfo = {
         banner: this.bannerImages,
@@ -129,6 +131,7 @@ export class AboutEditorComponent implements OnInit {
       } else this.alertService.addAlert({type:'warning',message:'No se han realizado cambios'});
       this.activeModal.close();
     } else this.alertService.addAlert({type:'danger',message:'Reyene todos los campos obligatorios'});
+    this.checking = false;
   }
 
 }

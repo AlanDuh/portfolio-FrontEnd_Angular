@@ -7,3 +7,7 @@ main {
     top: -40px;
     z-index: -1;
 }
+
+.smooth-text {
+    color: #444;
+}
