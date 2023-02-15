@@ -94,6 +94,14 @@ export class ContentLoaderService {
     });
   }
 
-  
+  async setOwnerInfo(newOwnerInfo:OwnerInfo):Promise<boolean> {
+    return await new Promise(resolve => {
+      this.http.post<OwnerInfo>(this.dbUrl+'ownerInfo', newOwnerInfo).subscribe(()=>{
+        this.ownerInfo = newOwnerInfo;
+        this.ownerInfoSubject.next(this.ownerInfo);
+        resolve(true);
+      });
+    })
+  }
 
 }

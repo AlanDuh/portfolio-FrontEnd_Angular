@@ -4,6 +4,11 @@ export interface Alert {
     message:string
 }
 
+export interface StoredImage {
+    id:number,
+    src:string
+}
+
 export interface AdminSettings {
     accounts:{
         name:string,
@@ -12,11 +17,8 @@ export interface AdminSettings {
 }
 
 export interface OwnerInfo {
-    banner:{
-        Src:string,
-        Type:string    
-    }[],
-    photo:string|null,
+    banner:StoredImage[],
+    photo:StoredImage|null,
     title:string,
     description:string
 }
@@ -24,7 +26,7 @@ export interface OwnerInfo {
 export interface EducExp {
     id:number,
     concept:string,
-    institutionImage:string,
+    institutionImage:StoredImage,
     title:string,
     institution:string,
     date:{
@@ -43,11 +45,7 @@ export interface HardSkill {
         positives:string[],
         negatives:string[]
     },
-    background:{
-        type:string,
-        animation:boolean,
-        src:string
-    }
+    background:StoredImage
 }
 
 export interface SoftSkill {
@@ -65,7 +63,7 @@ export interface Projects {
     name:string,
     description:string,
     date:string,
-    images:string[],
+    images:StoredImage[],
     links:{
         page:string,
         gitHub:string

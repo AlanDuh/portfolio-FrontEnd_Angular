@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 
 import { ContentLoaderService } from 'src/app/services/content-loader.service';
 import { AccountSettingsService } from 'src/app/services/account-settings.service';
+import { AboutEditorComponent } from '../../modals/about-editor/about-editor.component';
+import { StoredImage } from 'src/app/interfaces';
 
 @Component({
   selector: 'app-about',
@@ -11,8 +14,8 @@ import { AccountSettingsService } from 'src/app/services/account-settings.servic
 })
 export class AboutComponent implements OnInit {
 
-  bannerImages:string[] = [];
-  photo:string|null = null;
+  bannerImages:StoredImage[] = [];
+  photo:StoredImage|null = null;
   title:string = '';
   description:string = '';
 
@@ -23,11 +26,12 @@ export class AboutComponent implements OnInit {
   
   constructor (
     private contentLoader:ContentLoaderService,
-    private accountSettings:AccountSettingsService
+    private accountSettings:AccountSettingsService,
+    private modalService:NgbModal
   ) {
     this.contentSubscription = contentLoader.onOwnerInfoChange().subscribe(ownerInfo=>{
       this.bannerImages = [];
-      ownerInfo.banner.forEach(img=>this.bannerImages.push(img.Src));
+      ownerInfo.banner.forEach(img=>this.bannerImages.push(img));
       this.photo = ownerInfo.photo;
       this.title = ownerInfo.title;
       this.description = ownerInfo.description;
@@ -39,8 +43,10 @@ export class AboutComponent implements OnInit {
     this.contentLoader.getDbOwnerInfo();
   }
 
-  comprobar() {
-    console.log('hola');
+  // Modal display
+  openModal() {
+    const modal = this.modalService.open(AboutEditorComponent, {backdrop: 'static', keyboard: false});
+    modal.hidden.subscribe(()=>(document.querySelector('body') as HTMLElement).style.overflow = '');
   }
 
 }
