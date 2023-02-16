@@ -5,12 +5,3 @@
 .photo-container {
     flex-basis: 150px;
 }
-
-button {
-    color: rgba(var(--bs-warning-rgb));
-    transition: color 0.5s;
-}
-
-button:hover {
-    color: #999;
-}

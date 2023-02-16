@@ -11,3 +11,21 @@ main {
 .smooth-text {
     color: #444;
 }
+
+.r-button {
+    color: rgba(var(--bs-danger-rgb));
+    transition: color 0.5s;
+}
+
+.y-button {
+    color: rgba(var(--bs-warning-rgb));
+    transition: color 0.5s;
+}
+
+.r-button:hover {
+    color: #999;
+}
+
+.y-button:hover {
+    color: #999;
+}

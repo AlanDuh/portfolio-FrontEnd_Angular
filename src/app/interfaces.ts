@@ -28,7 +28,7 @@ export interface OwnerInfo {
 export interface EducExp {
     id:number,
     concept:string,
-    institutionImage:StoredImage,
+    institutionImage:StoredImage|null,
     title:string,
     institution:string,
     date:{

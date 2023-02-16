@@ -1,5 +1,13 @@
 <app-header></app-header>
 <main class="container-xxl p-0">
     <app-about></app-about>
+    <div class="d-flex flex-row flex-wrap">
+        <section class="col-12 col-md-6 mt-5 smooth-text">
+            <app-education-experiences [type]="'Education'"></app-education-experiences>
+        </section>
+        <section class="col-12 col-md-6 mt-5 smooth-text">
+            <app-education-experiences [type]="'Experiences'"></app-education-experiences>
+        </section>
+    </div>
 </main>
 <app-alerts-container></app-alerts-container>

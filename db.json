@@ -25,7 +25,10 @@
     {
       "id": 1,
       "concept": "Estudios Secundarios",
-      "institutionImage": "imgs/icts.png",
+      "institutionImage": {
+        "id": 1,
+        "src": "../../../../../assets/imgs/icts.png"
+      },
       "title": "Titulo secundario de Bachiller en Economía y Administración",
       "institution": "Instituto Cultural Tristán Suarez",
       "date": {
@@ -38,7 +41,10 @@
     {
       "id": 2,
       "concept": "Certificado de Programador",
-      "institutionImage": "imgs/APLogo.png",
+      "institutionImage": {
+        "id": 1,
+        "src": "../../../../../assets/imgs/APLogo.png"
+      },
       "title": "Full Stack Developer Jr",
       "institution": "Instituto Nacional de Tecnología Industrial (INTI)",
       "date": {

@@ -12,6 +12,8 @@ import { AlertsContainerComponent } from './components/alerts-container/alerts-c
 import { AboutComponent } from './components/sections/about/about.component';
 import { AboutEditorComponent } from './components/modals/about-editor/about-editor.component';
 import { ThumbnailContainerComponent } from './components/modals/thumbnail-container/thumbnail-container.component';
+import { EducationExperiencesComponent } from './components/sections/education-experiences/education-experiences.component';
+import { EducExpCardComponent } from './components/sections/education-experiences/educ-exp-card/educ-exp-card.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { ThumbnailContainerComponent } from './components/modals/thumbnail-conta
     AlertsContainerComponent,
     AboutComponent,
     AboutEditorComponent,
-    ThumbnailContainerComponent
+    ThumbnailContainerComponent,
+    EducationExperiencesComponent,
+    EducExpCardComponent
   ],
   imports: [
     BrowserModule,

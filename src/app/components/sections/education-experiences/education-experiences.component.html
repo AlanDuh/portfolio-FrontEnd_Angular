@@ -1,0 +1,31 @@
+<h2 class="fw-bold mb-3 d-flex align-items-center justify-content-center">
+    {{type}}
+    <span
+        *ngIf="loged" 
+        class="btn py-0 border-0"
+        (click)="addCard()"
+        ><i
+            class="fa-solid fa-circle-plus y-button"
+        ></i>
+    </span>
+</h2>
+<app-educ-exp-card
+    [type]="type"
+    [card]="card"
+    [loged]="loged"
+    [index]="educationItems.indexOf(card)"
+    (cardMove)="moveCard($event.from, $event.to)"
+    *ngFor="let card of educationItems"
+></app-educ-exp-card>
+<app-educ-exp-card
+    [type]="type"
+    [card]="card"
+    [loged]="loged"
+    [index]="experiencesItems.indexOf(card)"
+    (cardMove)="moveCard($event.from, $event.to)"
+    *ngFor="let card of experiencesItems"
+></app-educ-exp-card>
+<app-educ-exp-card
+    [type]="'voidHolder'"
+    *ngIf="educationItems.length === 0 && experiencesItems.length === 0"
+></app-educ-exp-card>
