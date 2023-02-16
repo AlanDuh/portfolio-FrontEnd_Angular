@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { AccountSettingsService } from 'src/app/services/account-settings.service';
-import { LogInService } from 'src/app/services/modals/log-in.service';
+import { LogInComponent } from '../modals/log-in/log-in.component';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +17,7 @@ export class HeaderComponent {
 
   constructor(
     private accountSettings:AccountSettingsService,
-    public logInService:LogInService
+    private modalService:NgbModal
   ) {
     this.subscription = accountSettings.onChange().subscribe(value => this.loged = value);
   }
@@ -25,8 +26,9 @@ export class HeaderComponent {
     this.accountSettings.Loged = false;
   }
 
+  // Modal display
   openModal() {
-    this.logInService.openModal();
+    this.modalService.open(LogInComponent, {backdrop: 'static', keyboard: false});
   }
   
 }

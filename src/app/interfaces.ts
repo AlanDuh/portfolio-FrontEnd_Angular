@@ -9,11 +9,13 @@ export interface StoredImage {
     src:string
 }
 
+export interface Account {
+    name:string,
+    pass:string
+}
+
 export interface AdminSettings {
-    accounts:{
-        name:string,
-        pass:string
-    }[]
+    accounts:Account[]
 }
 
 export interface OwnerInfo {

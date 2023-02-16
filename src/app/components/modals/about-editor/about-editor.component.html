@@ -42,5 +42,5 @@
 <div class="modal-footer position-relative">
     <button (click)="activeModal.close()" type="button" class="btn btn-secondary" data-bs-dismiss="modal" [ngClass]="{'opacity-0':checking,'disabled':checking}">Cancelar</button>
     <button (click)="save()" type="button" id="owner-saver" class="btn btn-primary" data-bs-dismiss="modal" [ngClass]="{'opacity-0':checking,'disabled':checking}">Guardar</button>
-    <span *ngIf="checking" class="d-block position-absolute top-50 start-50 translate-middle text-muted"><i class="fa-solid fa-hurricane fa-spin text-muted"></i></span>
+    <span *ngIf="checking" class="m-0 d-block position-absolute top-50 start-50 translate-middle text-muted"><i class="fa-solid fa-hurricane fa-spin text-muted"></i></span>
 </div>

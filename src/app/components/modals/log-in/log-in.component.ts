@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { LogInService } from 'src/app/services/modals/log-in.service';
+import { AccountSettingsService } from 'src/app/services/account-settings.service';
 
 @Component({
   selector: 'app-log-in',
@@ -14,25 +15,24 @@ export class LogInComponent {
   checking:boolean = false;
 
   constructor (
-    private logInService:LogInService,
+    private accountSettings:AccountSettingsService,
+    private activeModal:NgbActiveModal
   ) {}
 
-  async verifyData(modal:any):Promise<void> {
+  closeModal():void {
+    this.activeModal.close();
+  }
+
+  async verifyData() {
     this.checking = true;
-    const tryToLog:boolean = await this.logInService.verifyData({
+    const tryToLog:boolean = await this.accountSettings.verifyData({
       name: this.nameInput,
       pass: this.passInput
     });
     if (tryToLog) {
-      modal.close();
+      this.activeModal.close();
     }
     this.checking = false;
-  }
-
-  setModal(modal:any):void {
-    this.logInService.Modal = modal;
-    const modalDropper:HTMLElement|null = document.getElementById('modalDropper');
-    if (modalDropper) (document.querySelector('app-log-in') as HTMLElement).removeChild(modalDropper);
   }
 
 }
