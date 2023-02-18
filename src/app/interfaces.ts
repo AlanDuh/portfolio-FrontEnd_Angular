@@ -34,7 +34,7 @@ export interface EducExp {
     date:{
         type:string,
         start:string|null,
-        end:string
+        end:string|null
     },
     general:string|null
 }

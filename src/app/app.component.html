@@ -1,12 +1,12 @@
 <app-header></app-header>
 <main class="container-xxl p-0">
-    <app-about></app-about>
+    <app-about [loading]="loading"></app-about>
     <div class="d-flex flex-row flex-wrap">
         <section class="col-12 col-md-6 mt-5 smooth-text">
-            <app-education-experiences [type]="'Education'"></app-education-experiences>
+            <app-education-experiences [loading]="loading" (setLoading)="Loading = $event" [type]="'education'"></app-education-experiences>
         </section>
         <section class="col-12 col-md-6 mt-5 smooth-text">
-            <app-education-experiences [type]="'Experiences'"></app-education-experiences>
+            <app-education-experiences [loading]="loading" (setLoading)="Loading = $event" [type]="'experiences'"></app-education-experiences>
         </section>
     </div>
 </main>

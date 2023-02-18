@@ -6,16 +6,16 @@
         class="card-header bg-white position-relative p-0"
         style="z-index: 1;"
         ><div class="d-flex justify-content-end">
-            <button type="button" class="btn border-0 y-button" title="Mover arriba">
+            <button type="button" [ngClass]="{'disabled':loading}" class="btn border-0 y-button" title="Mover arriba" (click)="moveForward()">
                 <i class="fa-solid fa-circle-chevron-up"></i>
             </button>
-            <button type="button" class="btn border-0 y-button" title="Mover abajo">
+            <button type="button" [ngClass]="{'disabled':loading}" class="btn border-0 y-button" title="Mover abajo" (click)="moveBackward()">
                 <i class="fa-solid fa-circle-chevron-down"></i>
             </button>
-            <button type="button" class="btn border-0 y-button" title="Editar" data-bs-toggle="modal" data-bs-target="#ExpEduc-modal">
+            <button type="button" [ngClass]="{'disabled':loading}" class="btn border-0 y-button" title="Editar" (click)="editCard()">
                 <i class="fa-solid fa-pen-to-square"></i>
             </button>
-            <button type="button" title="Eliminar" class="btn border-0 r-button">
+            <button type="button" [ngClass]="{'disabled':loading}" title="Eliminar" class="btn border-0 r-button" (click)="deleteCard()">
                 <i class="fa-solid fa-circle-xmark"></i>
             </button>
         </div>

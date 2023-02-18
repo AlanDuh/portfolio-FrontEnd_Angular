@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'portfolio-FrontEnd_Angular';
+
+  loading:boolean = false;
+
+  set Loading(newValue:boolean) {
+    this.loading = newValue;
+  }
+
 }

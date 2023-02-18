@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 
@@ -14,6 +14,7 @@ import { StoredImage } from 'src/app/interfaces';
 })
 export class AboutComponent implements OnInit {
 
+  @Input() loading:boolean = false;
   bannerImages:StoredImage[] = [];
   photo:StoredImage|null = null;
   title:string = '';

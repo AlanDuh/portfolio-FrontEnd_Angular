@@ -14,6 +14,7 @@ import { AboutEditorComponent } from './components/modals/about-editor/about-edi
 import { ThumbnailContainerComponent } from './components/modals/thumbnail-container/thumbnail-container.component';
 import { EducationExperiencesComponent } from './components/sections/education-experiences/education-experiences.component';
 import { EducExpCardComponent } from './components/sections/education-experiences/educ-exp-card/educ-exp-card.component';
+import { EducExpEditorComponent } from './components/modals/educ-exp-editor/educ-exp-editor.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { EducExpCardComponent } from './components/sections/education-experience
     AboutEditorComponent,
     ThumbnailContainerComponent,
     EducationExperiencesComponent,
-    EducExpCardComponent
+    EducExpCardComponent,
+    EducExpEditorComponent
   ],
   imports: [
     BrowserModule,

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { OwnerInfo } from 'src/app/interfaces';
+import { OwnerInfo, StoredImage } from 'src/app/interfaces';
 import { ContentLoaderService } from 'src/app/services/content-loader.service';
-import { StoredImage } from 'src/app/interfaces';
 import { AlertsService } from 'src/app/services/alerts.service';
 
 @Component({

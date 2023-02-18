@@ -1,0 +1,250 @@
+<div
+    class="modal-header justify-content-between align-items-center"
+    >
+    <div
+        style="width: 1em; height: 1em;"
+        class="m-2"
+    ></div>
+    <h1
+        class="modal-title fs-5 text-center"
+        id="ExpEduc-modal-label"
+        >
+        Editar Tarjeta
+    </h1>
+    <button
+        type="button"
+        [ngClass]="{'disabled':loading}"
+        class="btn-close m-0 ExpEduc-edition-cancel"
+        (click)="closeModal()"
+        aria-label="Close"
+    ></button>
+</div>
+<div
+    class="modal-body text-muted"
+    >
+    <form
+        style="font-size: .75em;"
+        >
+        <div
+            class="mb-3"
+            >
+            <label
+                class="form-label"
+                for="ExpEduc-concept"
+                >
+                Concepto:
+            </label>
+            <input
+                name="concept"
+                [(ngModel)]="concept"
+                [ngClass]="{'is-valid':concept,'is-invalid':!concept}"
+                class="form-control form-control-sm bg-opacity-25"
+                type="text" id="ExpEduc-concept"
+            >
+        </div>
+        <div
+            class="mb-3"
+            id="intitution-image"
+            >
+            <label
+                class="form-label"
+                for="intitution-image"
+                >
+                Imagen de la Institución:
+            </label>
+            <div
+                class="input-group input-group-sm"
+                >
+                <div
+                    class="input-group-text position-relative"
+                    >
+                    <label
+                        class="form-label m-0"
+                        for="ExpEduc-institutionImg-file"
+                        >
+                        Inserte Archivo
+                    </label>
+                    <input
+                        (input)="fileInput($event)"
+                        class="form-control form-control-sm position-absolute opacity-0 start-0 top-0"
+                        type="file"
+                        id="ExpEduc-institutionImg-file"
+                        accept="image/png, image/jpeg"
+                        >
+                </div>
+                <input
+                    name="institutionImageSrc"
+                    [(ngModel)]="institutionImageSrc"
+                    class="form-control form-control-sm"
+                    type="text"
+                    aria-label="insertar enlace de un archivo .png o .jpg"
+                    id="ExpEduc-institutionImg-link"
+                    placeholder="Enlace de una imagen (.png o .jpg)"
+                >
+            </div>
+        </div>
+        <div
+            class="mb-3"
+            >
+            <label
+                class="form-label"
+                for="ExpEduc-title"
+                >
+                Título / Puesto de trabajo:
+            </label>
+            <input
+                name="title"
+                [(ngModel)]="title"
+                [ngClass]="{'is-valid':title,'is-invalid':!title}"
+                class="form-control form-control-sm bg-opacity-25"
+                type="text"
+                id="ExpEduc-title"
+            >
+        </div>
+        <div
+            class="mb-3"
+            >
+            <label
+                class="form-label"
+                for="ExpEduc-institution"
+                >
+                Nombre de la Institución:
+            </label>
+            <input
+                name="institution"
+                [(ngModel)]="institution"
+                [ngClass]="{'is-valid':institution,'is-invalid':!institution}"
+                class="form-control form-control-sm bg-opacity-25"
+                type="text" id="ExpEduc-institution"
+            >
+        </div>
+        <label
+            for="period"
+            class="mb-1"
+            >
+            Periodo:
+        </label>
+        <div
+            class="mb-3 row g-2"
+            id="period"
+            style="font-size: .74em;"
+            >
+            <div
+                class="col-sm-4"
+                >
+                <label
+                    for="ExpEduc-state"
+                    class="mb-1"
+                    >
+                    Estado de cursada o situación laboral
+                </label>
+                <select
+                    name="date.type"
+                    [(ngModel)]="date.type"
+                    [ngClass]="{'is-valid':date.type,'is-invalid':!date.type}"
+                    class="form-select form-select-sm bg-opacity-25"
+                    id="ExpEduc-state"
+                    aria-label="estado de cursada o situación laboral"
+                    >
+                    <option
+                        value="finished"
+                        >
+                        Finalizado
+                    </option>
+                    <option
+                        value="in progress"
+                        >
+                        En curso
+                    </option>
+                    <option
+                        value="completion only"
+                        >
+                        Solo finalización
+                    </option>
+                </select>
+            </div>
+            <div
+                class="col-sm-4"
+                >
+                <label
+                    for="ExpEduc-start-date"
+                    class="mb-1"
+                    >
+                    Fecha de inicio:
+                </label>
+                <input
+                    name="date.start"
+                    [(ngModel)]="date.start"
+                    [ngClass]="{'text-muted':date.type === 'completion only','is-valid':date.start && date.type !== 'completion only','is-invalid':!date.start && date.type !== 'completion only'}"
+                    [disabled]="date.type === 'completion only'"
+                    class="form-control form-control-sm bg-opacity-25"
+                    type="date"
+                    id="ExpEduc-start-date"
+                >
+            </div>
+            <div
+                class="col-sm-4"
+                >
+                <label
+                    for="ExpEduc-finish-date"
+                    class="mb-1"
+                    >
+                    Fecha de finalización:
+                </label>
+                <input
+                    name="date.end"
+                    [(ngModel)]="date.end"
+                    [ngClass]="{'text-muted':date.type === 'in progress','is-valid':date.end && date.type !== 'in progress','is-invalid':!date.end && date.type !== 'in progress'}"
+                    [disabled]="date.type === 'in progress'"
+                    class="form-control form-control-sm bg-opacity-25"
+                    type="date"
+                    id="ExpEduc-finish-date"
+                >
+            </div>
+        </div>
+        <div
+            class="mb-1"
+            >
+            <label
+                class="form-label"
+                for="ExpEduc-general"
+                >
+                Más información (opcionál):
+            </label>
+            <textarea
+                name="general"
+                [(ngModel)]="general"
+                class="form-control form-control-sm"
+                type="text" id="ExpEduc-general"
+            ></textarea>
+        </div>
+    </form>
+</div>
+<div
+    class="modal-footer position-relative"
+    >
+    <button
+        type="button"
+        class="btn btn-secondary ExpEduc-edition-cancel"
+        (click)="closeModal()"
+        [ngClass]="{'opacity-0':loading,'disabled':loading}"
+        >
+        Cancelar
+    </button>
+    <button
+        type="button"
+        class="btn btn-primary"
+        (click)="save()"
+        [ngClass]="{'opacity-0':loading,'disabled':loading}"
+        >
+        Guardar
+    </button>
+    <span
+        *ngIf="loading"
+        class="m-0 d-block position-absolute top-50 start-50 translate-middle text-muted"
+        >
+        <i
+            class="fa-solid fa-hurricane fa-spin text-muted"
+        ></i>
+    </span>
+</div>

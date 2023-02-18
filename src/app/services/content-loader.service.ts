@@ -36,8 +36,16 @@ export class ContentLoaderService {
     return this.educationSubject.asObservable();
   }
 
+  get Education():EducExp[] {
+    return this.education;
+  }
+
   onExperiencesChange():Observable<EducExp[]> {
     return this.experiencesSubject.asObservable();
+  }
+
+  get Experiences():EducExp[] {
+    return this.experiences;
   }
 
   onHardSkillsChange():Observable<HardSkill[]> {
@@ -94,6 +102,14 @@ export class ContentLoaderService {
     });
   }
 
+  getHighestIdFrom(target:(EducExp|HardSkill|SoftSkill|Projects)[]):number {
+    if (target.length > 0) {
+      let allIds:number[] = [];
+      target.forEach(card => allIds.push(card.id));
+      return Math.max(...allIds);
+    } else return 0;
+  }
+
   async setOwnerInfo(newOwnerInfo:OwnerInfo):Promise<boolean> {
     return await new Promise(resolve => {
       this.http.post<OwnerInfo>(this.dbUrl+'ownerInfo', newOwnerInfo).subscribe(()=>{
@@ -102,6 +118,65 @@ export class ContentLoaderService {
         resolve(true);
       });
     })
+  }
+
+  async updateDb(dbType:string, newContent:(EducExp|HardSkill|SoftSkill|Projects)[]):Promise<boolean> {
+    return await new Promise(resolve => {
+      this.http.delete<EducExp[]>(this.dbUrl + dbType).subscribe(()=>{
+        resolve(true);
+      });
+    });
+  }
+  
+  async deleteEducExp(id:number, type:string):Promise<boolean> {
+    let target:EducExp[] = [];
+    let targetSubject:Subject<EducExp[]>;
+    if (type === 'education') {
+      target = this.education;
+      targetSubject = this.educationSubject;
+    } else if (type === 'experiences') {
+      target = this.experiences;
+      targetSubject = this.experiencesSubject;
+    }
+    return await new Promise(resolve=>{
+      this.http.delete<EducExp>(this.dbUrl + type + '/' + id).subscribe(()=>{
+        target.splice(target.indexOf(target.find(card=>card.id === id) as EducExp),1);
+        targetSubject.next(target);
+        resolve(true);
+      })
+    })
+  }
+
+  async setEducExp(newEducExp:EducExp, type:string, updateFront:boolean):Promise<string> {
+    let target:EducExp[] = [];
+    let targetSubject:Subject<EducExp[]>;
+    if (type === 'education') {
+      target = this.education;
+      targetSubject = this.educationSubject;
+    }
+    else if (type === 'experiences') {
+      target = this.experiences;
+      targetSubject = this.experiencesSubject;
+    }
+    return await new Promise(resolve=>{
+      if (newEducExp.id !== 0) {
+        this.http.put<EducExp>(this.dbUrl + type + '/' + newEducExp.id, newEducExp).subscribe(()=>{
+          if (updateFront) {
+            if (type === 'education') this.getDbEducation();
+            else if (type === 'experiences') this.getDbExperiences();
+          }
+          resolve('Información actualizada correctamente');
+        });
+      } else {
+        this.http.post<EducExp>(this.dbUrl + type, newEducExp).subscribe(()=>{
+          if (updateFront) {
+            if (type === 'education') this.getDbEducation();
+            else if (type === 'experiences') this.getDbExperiences();
+          }
+          resolve('Tarjeta añadida correctamente');
+        });
+      }
+    });
   }
 
 }
