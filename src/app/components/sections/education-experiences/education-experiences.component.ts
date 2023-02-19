@@ -22,6 +22,9 @@ export class EducationExperiencesComponent implements OnInit {
   loged:boolean = false;
   accountSubscription?:Subscription;
   contentSubscription?:Subscription;
+  baseContainer:EducExp[] = [];
+  dragging:boolean = false;
+  cardDragging:number = 0;
 
   constructor(
     private contentLoader: ContentLoaderService,
@@ -74,6 +77,51 @@ export class EducationExperiencesComponent implements OnInit {
     let openModal:NgbModalRef = this.modalService.open(EducExpEditorComponent, {backdrop: 'static', keyboard: false});
     openModal.componentInstance.type = this.type;
     openModal.componentInstance.idx = this.cardsContainer.length;
+  }
+
+  onDragStart(cardDragging:number) {
+    this.cardDragging = cardDragging;
+    this.dragging = true;
+    this.baseContainer = [];
+    this.cardsContainer.forEach(card => this.baseContainer.push(card));
+  }
+
+  onDragEnter(cardOver:number) {
+    if (cardOver !== this.cardDragging) {
+      this.moveCard(
+        this.cardsContainer.indexOf(this.cardsContainer.find(card => card.id === this.cardDragging) as EducExp),
+        this.cardsContainer.indexOf(this.cardsContainer.find(card => card.id === cardOver) as EducExp),
+        false
+        )
+      this.cardDragging = cardOver;
+    }
+  }
+
+  async onDragEnd() {
+    this.setLoading.emit(true);
+    let cardsToUpdate:EducExp[] = []
+    for (let card in this.cardsContainer) {
+      if (this.cardsContainer[card] !== this.baseContainer[card]) cardsToUpdate.push(this.cardsContainer[card]);
+    }
+    if (cardsToUpdate.length > 0) {
+      let existsNext:boolean = true;
+      let idx:number = 0;
+      while (existsNext) {
+        console.log('llamando peticion');
+        let isLastCard:boolean = false;
+        if (idx === cardsToUpdate.length - 1) isLastCard = true;
+        await this.contentLoader.setEducExp(
+          cardsToUpdate[idx],
+          this.type,
+          isLastCard
+        ).then(()=>{
+          console.log('peticion exitosa');
+          if (isLastCard) existsNext = false;
+          idx++;
+        });
+      }
+    }
+    this.setLoading.emit(false);
   }
 
 }

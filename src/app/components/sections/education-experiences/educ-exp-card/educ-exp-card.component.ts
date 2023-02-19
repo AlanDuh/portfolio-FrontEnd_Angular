@@ -29,9 +29,14 @@ export class EducExpCardComponent implements OnInit {
   @Input() loged:boolean = false;
   @Input() index:number = 0;
   @Input() loading:boolean = false;
+  @Input() dragging:boolean = false;
   @Output() setLoading = new EventEmitter<boolean>();
   @Output() cardMove = new EventEmitter<{from:number,to:number,updateDb:boolean}>();
+  @Output() startDrag = new EventEmitter<number>();
+  @Output() enterDrag = new EventEmitter<number>();
+  @Output() endDrag = new EventEmitter<void>();
   bgImage:string = '/';
+  draggingCardId:number = 0;
 
   constructor (
     private modalService: NgbModal,
@@ -81,6 +86,22 @@ export class EducExpCardComponent implements OnInit {
     let openModal:NgbModalRef = this.modalService.open(EducExpEditorComponent, {backdrop: 'static', keyboard: false});
     openModal.componentInstance.idx = this.index;
     openModal.componentInstance.type = this.type;
+  }
+
+  onDragStart() {
+    this.startDrag.emit(this.card.id);
+  }
+
+  onDragEnter() {
+    this.enterDrag.emit(this.card.id);
+  }
+
+  onDragOver(event:Event) {
+    if (this.dragging) event.preventDefault();
+  }
+
+  onDragEnd() {
+    this.endDrag.emit();
   }
 
 }

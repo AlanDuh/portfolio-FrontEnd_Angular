@@ -1,5 +1,10 @@
 <div
     *ngIf="type !== 'voidHolder'"
+    [draggable]="loged && !loading"
+    (dragstart)="onDragStart()"
+    (dragenter)="onDragEnter()"
+    (dragover)="onDragOver($event)"
+    (dragend)="onDragEnd()"
     class="card mx-3 mt-4 p-0 shadow-sm overflow-hidden position-relative"
     ><div
         *ngIf="loged"
