@@ -179,4 +179,38 @@ export class ContentLoaderService {
     });
   }
 
+  async setHardSkill(newHardSkill:HardSkill, updateFront:boolean):Promise<string> {
+    let cardToEdit:HardSkill|undefined = this.hardSkills.find(card => card.id === newHardSkill.id);
+    if (cardToEdit) {
+      return await new Promise(resolve => {
+        this.http.put<HardSkill>(this.dbUrl + 'hardSkills/' + newHardSkill.id, newHardSkill)
+        .subscribe(()=>{
+          cardToEdit = newHardSkill;
+          if (updateFront) this.hardSkillsSubject.next(this.hardSkills);
+          resolve('Información actualizada correctamente');
+        })
+      });
+    } else {
+      newHardSkill.id = this.getHighestIdFrom(this.hardSkills) + 1;
+      return await new Promise(resolve => {
+        this.http.post<HardSkill>(this.dbUrl + 'hardSkills', newHardSkill)
+        .subscribe(()=>{
+          this.hardSkills.push(newHardSkill);
+          if (updateFront) this.hardSkillsSubject.next(this.hardSkills);
+          resolve('Tarjeta añadida correctamente');
+        })
+      });
+    }
+  }
+
+  async deleteHardSkill(cardToDelete:HardSkill): Promise<boolean> {
+    return await new Promise(resolve => {
+      this.http.delete<HardSkill>(this.dbUrl + 'hardSkills/' + cardToDelete.id).subscribe(()=>{
+        this.hardSkills = this.hardSkills.filter(card => card !== cardToDelete);
+        this.hardSkillsSubject.next(this.hardSkills);
+        resolve(true);
+      })
+    });
+  }
+
 }

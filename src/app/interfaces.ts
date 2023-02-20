@@ -8,6 +8,10 @@ export interface StoredImage {
     id:number,
     src:string
 }
+export interface StoredString {
+    id:number,
+    content:string
+}
 
 export interface Account {
     name:string,
@@ -44,10 +48,10 @@ export interface HardSkill {
     name:string,
     value:number,
     points:{
-        positives:string[],
-        negatives:string[]
+        positives:StoredString[],
+        negatives:StoredString[]
     },
-    background:StoredImage
+    background:StoredImage|null
 }
 
 export interface SoftSkill {

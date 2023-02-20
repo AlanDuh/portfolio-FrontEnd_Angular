@@ -105,16 +105,6 @@ export class EducExpEditorComponent implements OnInit{
         date:this.date,
         general:this.general
       }
-      // console.log(
-      //   newCard.id !== this.baseItem?.id,
-      //   newCard.concept !== this.baseItem?.concept,
-      //   newCard.institutionImage !== this.baseItem?.institutionImage,
-      //   newCard.title !== this.baseItem?.title,
-      //   newCard.institution !== this.baseItem?.institution,
-      //   newCard.date !== this.baseItem?.date,
-      //   newCard.general !== this.baseItem?.general,
-      //   newCard.date, this.baseItem?.date
-      //   )
       if (
         newCard.id !== this.baseItem?.id ||
         newCard.concept !== this.baseItem?.concept ||

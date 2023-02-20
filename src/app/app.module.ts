@@ -15,6 +15,9 @@ import { ThumbnailContainerComponent } from './components/modals/thumbnail-conta
 import { EducationExperiencesComponent } from './components/sections/education-experiences/education-experiences.component';
 import { EducExpCardComponent } from './components/sections/education-experiences/educ-exp-card/educ-exp-card.component';
 import { EducExpEditorComponent } from './components/modals/educ-exp-editor/educ-exp-editor.component';
+import { HardSkillsComponent } from './components/sections/hard-skills/hard-skills.component';
+import { HardSkillCardComponent } from './components/sections/hard-skills/hard-skill-card/hard-skill-card.component';
+import { HardSkillEditorComponent } from './components/modals/hard-skill-editor/hard-skill-editor.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,10 @@ import { EducExpEditorComponent } from './components/modals/educ-exp-editor/educ
     ThumbnailContainerComponent,
     EducationExperiencesComponent,
     EducExpCardComponent,
-    EducExpEditorComponent
+    EducExpEditorComponent,
+    HardSkillsComponent,
+    HardSkillCardComponent,
+    HardSkillEditorComponent
   ],
   imports: [
     BrowserModule,

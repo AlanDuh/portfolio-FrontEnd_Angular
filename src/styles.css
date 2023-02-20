@@ -15,11 +15,13 @@ main {
 .r-button {
     color: rgba(var(--bs-danger-rgb));
     transition: color 0.5s;
+    border: none !important;
 }
 
 .y-button {
     color: rgba(var(--bs-warning-rgb));
     transition: color 0.5s;
+    border: none !important;
 }
 
 .r-button:hover {

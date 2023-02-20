@@ -1,0 +1,30 @@
+<h2 class="fw-bold mb-3 d-flex align-items-center justify-content-center">
+    <i>Hard Skills</i>
+    <span
+        *ngIf="loged"
+        [ngClass]="{'disabled':loading}"
+        class="btn py-0 border-0 y-button"
+        (click)="addCard()"
+        ><i
+            class="fa-solid fa-circle-plus"
+        ></i>
+    </span>
+</h2>
+<app-hard-skill-card
+    [type]="'card'"
+    [card]="card"
+    [loged]="loged"
+    [index]="content.indexOf(card)"
+    [loading]="loading"
+    [dragging]="dragging"
+    (startDrag)="onDragStart($event)"
+    (enterDrag)="onDragEnter($event)"
+    (endDrag)="onDragEnd()"
+    (setLoading)="setLoading.emit($event)"
+    (cardMove)="moveCard($event.from, $event.to, $event.updateDb)"
+    *ngFor="let card of content"
+></app-hard-skill-card>
+<app-hard-skill-card
+    [type]="'voidHolder'"
+    *ngIf="content.length === 0"
+></app-hard-skill-card>

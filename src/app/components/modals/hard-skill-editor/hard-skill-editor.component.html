@@ -1,0 +1,366 @@
+
+<div
+    class="modal-header justify-content-between align-items-center"
+    >
+    <div
+        style="width: 1em; height: 1em;"
+        class="m-2"
+        >
+    </div>
+    <h1
+        class="modal-title fs-5 text-center"
+        id="HSkill-modal-label"
+        >
+        Editar <i>skill</i>
+    </h1>
+    <button
+        type="button"
+        class="btn-close m-0"
+        aria-label="Close"
+        (click)="closeModal()"
+        [ngClass]="{'disabled':loading}"
+        >
+    </button>
+</div>
+<div
+    class="modal-body text-muted"
+    >
+    <form
+        style="font-size: .75em;"
+        >
+        <div
+            class="mb-3 row g-2"
+            >
+            <div
+                class="col col-12 col-sm-4"
+                >
+                <label
+                    for="HSkill-name"
+                    class="mb-1"
+                    >
+                    Titulo de <i>Skill</i>:
+                </label>
+                <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    name="card.name"
+                    [(ngModel)]="card.name"
+                    [ngClass]="{
+                        'is-valid':card.name,
+                        'is-invalid':!card.name
+                    }"
+                >
+            </div>
+            <div
+                class="col col-12 col-sm-8"
+                >
+                <label
+                    for="HSkill-percent"
+                    class="form-label mb-1"
+                    >
+                    Porcentaje de <i>Skill</i>:
+                </label>
+                <div
+                    class="input-group"
+                    style="height: 31px;"
+                    >
+                    <span
+                        class="input-group-text py-0" 
+                        style="width: 4em;"
+                        id="HSkill-value-overview"
+                        >
+                        {{card.value}}%
+                    </span>
+                    <div
+                        class="d-flex align-items-center px-2 input-group-item border rounded-end"
+                        style="flex-grow: 1;"
+                        >
+                        <input
+                            type="range"
+                            class="form-range"
+                            min="0"
+                            max="100"
+                            name="card.value"
+                            [(ngModel)]="card.value"
+                            id="HSkill-percent"
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+        <label
+            class="form-label"
+            for="HSkill-background-image"
+            >
+            Imagen de fondo:
+        </label>
+        <div
+            class="mb-3 row"
+            id="HSkill-background-image"
+            >
+            <div
+                class="input-group input-group-sm d-none d-sm-flex"
+                >
+                <div
+                    class="input-group-text p-0 overflow-hidden"
+                    >
+                    <select
+                        class="form-select form-select-sm border-0 rounded-0 HSkill-bgType"
+                        style="width: 100px;"
+                        aria-label="Tipo de Archivo"
+                        title="Esta función no está habilitada"
+                        disabled
+                        >
+                        <option
+                            value="image"
+                            selected=""
+                            >
+                            Imagen
+                        </option>
+                        <option
+                            value="canvas"
+                            disabled=""
+                            >
+                            Canvas
+                        </option>
+                        <option
+                            value="canvasAnimation"
+                            disabled=""
+                            >
+                            Canvas - animation
+                        </option>
+                    </select>
+                </div>
+                <div
+                    class="input-group-text position-relative"
+                    >
+                    <label
+                        class="form-label m-0"
+                        for="HSkill-bg-file"
+                        >
+                        Inserte Archivo
+                    </label>
+                    <input
+                        (input)="fileInput($event)"
+                        class="form-control form-control-sm position-absolute opacity-0 start-0 top-0 HSkill-bg-file"
+                        type="file"
+                        accept="image/png, image/jpeg"
+                    >
+                </div>
+                <input
+                    class="form-control form-control-sm HSkill-bg-link"
+                    type="text"
+                    aria-label="insertar enlace de un archivo .png o .jpg"
+                    placeholder="Enlace de una imagen (.png o .jpg)"
+                    name="card.background"
+                    [(ngModel)]="backgroundSrc"
+                >
+            </div>
+            <div
+                class="col col-12 mb-1 d-sm-none"
+                >
+                <select
+                    class="form-select form-select-sm HSkill-bgType"
+                    aria-label="Tipo de Archivo"
+                    title="Esta función no está habilitada"
+                    disabled
+                    >
+                    <option
+                        value="image"
+                        selected=""
+                        >
+                        Imagen
+                    </option>
+                    <option
+                        value="canvas"
+                        disabled=""
+                        >
+                        Canvas
+                    </option>
+                    <option
+                        value="canvasAnimation"
+                        disabled=""
+                        >
+                        Canvas - animation
+                    </option>
+                </select>
+            </div>
+            <div
+                class="input-group input-group-sm d-sm-none col col-12 d-sm-none"
+                >
+                <div
+                    class="input-group-text position-relative"
+                    >
+                    <label
+                        class="form-label m-0"
+                        for="HSkill-bg-file"
+                        >
+                        Inserte Archivo
+                    </label>
+                    <input
+                        (input)="fileInput($event)"
+                        class="form-control form-control-sm position-absolute opacity-0 start-0 top-0 HSkill-bg-file"
+                        type="file"
+                        accept="image/png, image/jpeg"
+                    >
+                </div>
+                <input
+                    class="form-control form-control-sm HSkill-bg-link"
+                    type="text"
+                    aria-label="insertar enlace de un archivo .png o .jpg"
+                    placeholder="Enlace de una imagen (.png o .jpg)"
+                    name="card.background"
+                    [(ngModel)]="backgroundSrc"
+                >
+            </div>
+        </div>
+        <div
+            class="mb-3"
+            id="positive-points"
+            >
+            <label
+                class="form-label"
+                for="positive-points"
+                >
+                Puntos a favor:
+            </label>
+            <div
+                >
+                <div
+                    *ngFor="let point of card.points.positives"
+                    class="input-group input-group-sm mb-1"
+                    >
+                    <input
+                        class="form-control form-control-sm point-name"
+                        type="text"
+                        aria-label="type a positive point"
+                        [name]="'card.points.positives[' + point.id + ']'"
+                        [(ngModel)]="card.points.positives[point.id].content"
+                        [ngClass]="{
+                            'is-valid':card.points.positives[point.id].content,
+                            'is-invalid':!card.points.positives[point.id].content
+                        }"
+                    >
+                    <div
+                        class="input-group-text"
+                        >
+                        <span
+                            (click)="deletePositivePoint(point)"
+                            class="btn p-0 y-button"
+                            [ngClass]="{
+                                'disabled':card.points.positives.length === 1,
+                                'text-muted':card.points.positives.length === 1
+                            }"
+                            >
+                            <i
+                                class="fa-solid fa-xmark"
+                                style="font-size: .75em;"
+                                title="Eliminar"
+                                >
+                            </i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="text-end mt-2"
+                >
+                <button
+                    (click)="addPositivePoint()"
+                    class="btn"
+                    style="background-color: #ddd559; font-size: .75em;"
+                    >
+                    Agregar punto a favor
+                </button>
+            </div>
+        </div>
+        <div
+            class="mb-3"
+            id="negative-points"
+            >
+            <label
+                class="form-label"
+                for="negative-points"
+                >
+                Puntos en contra:
+            </label>
+            <div
+                >
+                <div
+                    *ngFor="let point of card.points.negatives"
+                    class="input-group input-group-sm mb-1"
+                    >
+                    <input
+                        class="form-control form-control-sm point-name"
+                        type="text"
+                        aria-label="type a negative point"
+                        [name]="'card.points.negatives[' + point.id + ']'"
+                        [(ngModel)]="card.points.negatives[point.id].content"
+                        [ngClass]="{
+                            'is-valid':card.points.negatives[point.id].content,
+                            'is-invalid':!card.points.negatives[point.id].content
+                        }"
+                    >
+                    <div
+                        class="input-group-text"
+                        >
+                        <span
+                            (click)="deleteNegativePoint(point)"
+                            class="btn p-0 y-button"
+                            [ngClass]="{
+                                'disabled':card.points.negatives.length === 1,
+                                'text-muted':card.points.negatives.length === 1
+                            }"
+                            >
+                            <i
+                                class="fa-solid fa-xmark"
+                                style="font-size: .75em;"
+                                title="Eliminar"
+                                >
+                            </i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="text-end mt-2"
+                >
+                <button
+                    (click)="addNegativePoint()"
+                    class="btn"
+                    style="background-color: #ddd559; font-size: .75em;"
+                    >
+                    Agregar punto en contra
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<div
+    class="modal-footer position-relative"
+    >
+    <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="closeModal()"
+        [ngClass]="{'opacity-0':loading,'disabled':loading}"
+        >
+        Cancelar
+    </button>
+    <button
+        type="button"
+        class="btn btn-primary"
+        (click)="save()"
+        [ngClass]="{'opacity-0':loading,'disabled':loading}"
+        >
+        Guardar
+    </button>
+    <span
+        *ngIf="loading"
+        class="m-0 d-block position-absolute top-50 start-50 translate-middle text-muted"
+        >
+        <i
+            class="fa-solid fa-hurricane fa-spin text-muted"
+        ></i>
+    </span>
+</div>

@@ -1,0 +1,143 @@
+<div 
+    class="col position-relative p-0 mt-4 mx-3"
+    [draggable]="loged && !loading"
+    (dragstart)="startDrag.emit(card)"
+    (dragenter)="enterDrag.emit(card)"
+    (dragend)="endDrag.emit()"
+    >
+    <div
+        class="progress position-absolute h-100 w-100 shadow-sm"
+        >
+        <h4
+            class="position-absolute text-center w-100"
+            [ngClass]="{'opacity-0':card.background}"
+            style="z-index: 0;"
+            >
+            {{card.name}}
+        </h4>
+        <div
+            class="position-absolute h-100 w-100 top-0 start-0"
+            *ngIf="card.background"
+            >
+            <img
+                class="h-100 w-100 opacity-50 object-fit-cover"
+                [src]="card.background.src"
+                [alt]="card.name + ' - Hard Skill Background'"
+            >
+        </div>
+        <div
+            class="progress-bar bg-success position-relative opacity-50"
+            role="progressbar"
+            aria-label="positive"
+            style="z-index: 1;"
+            [style.width]="card.value + '%'"
+            [attr.aria-valuenow]="card.value"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            >
+        </div>
+        <div
+            class="progress-bar bg-danger position-relative opacity-50"
+            role="progressbar"
+            aria-label="negative"
+            style="z-index: 1;"
+            [style.width]="(100 - card.value) + '%'"
+            [attr.aria-valuenow]="100 - card.value"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            >
+        </div>
+    </div>
+    <div
+        class="container-fluid position-relative top-0 start-0 p-3"
+        style="z-index: 2;"
+        >
+        <div
+            class="row"
+            >
+            <div
+                class="col-12 col-md-6 text-start"
+                >
+                <p
+                    class="m-0"
+                    style="color: #fff;"
+                    >
+                    <span *ngFor="let item of card.points.positives">
+                        <i
+                            class="fa-solid fa-check text-success"
+                            >
+                        </i>
+                         {{item.content}}
+                        <br>
+                    </span>
+                </p>
+            </div>
+            <div
+                class="col-12 col-md-6 text-end"
+                >
+                <p
+                    class="m-0 mt-3 mt-md-0"
+                    style="color: #fff;"
+                    >
+                    <span *ngFor="let item of card.points.negatives">
+                        {{item.content}} 
+                        <i
+                            class="fa-solid fa-xmark text-danger"
+                            >
+                        </i>
+                        <br>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div
+            *ngIf="loged"
+            class="position-absolute top-50 start-50 translate-middle d-flex bg-secondary bg-opacity-50 rounded"
+            >
+            <button
+                type="button"
+                class="btn y-button"
+                title="Mover arriba"
+                (click)="cardMove.emit({from:card, to:'forward', updateDb:true})"
+                >
+                <i
+                    class="fa-solid fa-circle-chevron-up"
+                    >
+                </i>
+            </button>
+            <button
+                type="button"
+                class="btn y-button"
+                title="Mover abajo"
+                (click)="cardMove.emit({from:card, to:'backward', updateDb:true})"
+                >
+                <i
+                    class="fa-solid fa-circle-chevron-down"
+                    >
+                </i>
+            </button>
+            <button
+                type="button"
+                class="btn y-button"
+                title="Editar"
+                (click)="editCard()"
+                >
+                <i
+                    class="fa-solid fa-pen-to-square"
+                    >
+                </i>
+            </button>
+            <button
+                type="button"
+                title="Eliminar"
+                class="btn r-button"
+                (click)="deleteCard()"
+                >
+                <i
+                    class="fa-solid fa-circle-xmark"
+                    >
+                </i>
+            </button>
+        </div>
+    </div>
+</div>

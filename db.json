@@ -24,22 +24,6 @@
   "education": [
     {
       "id": 1,
-      "concept": "Estudios Secundarios",
-      "institutionImage": {
-        "id": 1,
-        "src": "../../../../../assets/imgs/icts.png"
-      },
-      "title": "Titulo secundario de Bachiller en Economía y Administración",
-      "institution": "Instituto Cultural Tristán Suarez",
-      "date": {
-        "type": "completion only",
-        "start": null,
-        "end": "2021-12-10"
-      },
-      "general": null
-    },
-    {
-      "id": 4,
       "concept": "Certificado de Programador",
       "institutionImage": {
         "id": 1,
@@ -53,6 +37,22 @@
         "end": null
       },
       "general": "La segunda etapa de 'Argentina Programa' se encuentra en curso desde noviembre de 2022"
+    },
+    {
+      "id": 4,
+      "concept": "Estudios Secundarios",
+      "institutionImage": {
+        "id": 1,
+        "src": "../../../../../assets/imgs/icts.png"
+      },
+      "title": "Titulo secundario de Bachiller en Economía y Administración",
+      "institution": "Instituto Cultural Tristán Suarez",
+      "date": {
+        "type": "completion only",
+        "start": null,
+        "end": "2021-12-10"
+      },
+      "general": null
     }
   ],
   "experiences": [],
@@ -63,21 +63,41 @@
       "value": 75,
       "points": {
         "positives": [
-          "Funciones básicas",
-          "Programación Orientada a Objetos",
-          "Tipado estático (Ts)",
-          "Uso de elemento Canvas",
-          "Manejo básico de Elementos del DOM"
+          {
+            "id": 0,
+            "content": "Funciones básicas"
+          },
+          {
+            "id": 1,
+            "content": "Programación Orientada a Objetos"
+          },
+          {
+            "id": 2,
+            "content": "Tipado estático (Ts)"
+          },
+          {
+            "id": 3,
+            "content": "Uso de elemento Canvas"
+          },
+          {
+            "id": 4,
+            "content": "Manejo básico de Elementos del DOM"
+          }
         ],
         "negatives": [
-          "Peticiones",
-          "Conexiones a Internet, servidores, etc"
+          {
+            "id": 0,
+            "content": "Peticiones"
+          },
+          {
+            "id": 1,
+            "content": "Conexiones a Internet, servidores, etc"
+          }
         ]
       },
       "background": {
-        "type": "image",
-        "animation": false,
-        "src": "imgs/JS-TS-background.png"
+        "id": 1,
+        "src": "../../../../../assets/imgs/JS-TS-background.png"
       }
     },
     {
@@ -86,20 +106,60 @@
       "value": 75,
       "points": {
         "positives": [
-          "Diseño estático",
-          "Uso básico de CSS",
-          "Uso básico de Bootstrap",
-          "Diseños responsivos"
+          {
+            "id": 0,
+            "content": "Diseño estático"
+          },
+          {
+            "id": 1,
+            "content": "Uso básico de CSS"
+          },
+          {
+            "id": 2,
+            "content": "Uso básico de Bootstrap"
+          },
+          {
+            "id": 3,
+            "content": "Diseños responsivos"
+          }
         ],
         "negatives": [
-          "SEO",
-          "Poco acostumbrado al uso de librerias y/o frameworks"
+          {
+            "id": 0,
+            "content": "SEO"
+          },
+          {
+            "id": 1,
+            "content": "Poco acostumbrado al uso de librerias y/o frameworks"
+          }
         ]
       },
       "background": {
-        "type": "image",
-        "animation": false,
-        "src": "imgs/HTML-CSS-BT-background.png"
+        "id": 1,
+        "src": "../../../../../assets/imgs/HTML-CSS-BT-background.png"
+      }
+    },
+    {
+      "id": 5,
+      "name": "Angular",
+      "value": 60,
+      "points": {
+        "positives": [
+          {
+            "id": 0,
+            "content": "Aprendizaje rápido"
+          }
+        ],
+        "negatives": [
+          {
+            "id": 0,
+            "content": "Falta de costumbre para \"generalizar\""
+          }
+        ]
+      },
+      "background": {
+        "id": 1676866553124,
+        "src": "https://cdn.windowsreport.com/wp-content/uploads/2020/06/angular-logo-2.png"
       }
     }
   ],

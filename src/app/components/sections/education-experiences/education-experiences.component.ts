@@ -107,7 +107,6 @@ export class EducationExperiencesComponent implements OnInit {
       let existsNext:boolean = true;
       let idx:number = 0;
       while (existsNext) {
-        console.log('llamando peticion');
         let isLastCard:boolean = false;
         if (idx === cardsToUpdate.length - 1) isLastCard = true;
         await this.contentLoader.setEducExp(
@@ -115,7 +114,6 @@ export class EducationExperiencesComponent implements OnInit {
           this.type,
           isLastCard
         ).then(()=>{
-          console.log('peticion exitosa');
           if (isLastCard) existsNext = false;
           idx++;
         });
