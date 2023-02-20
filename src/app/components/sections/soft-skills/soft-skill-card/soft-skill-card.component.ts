@@ -5,17 +5,16 @@ import { SoftSkill } from 'src/app/interfaces';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ContentLoaderService } from 'src/app/services/content-loader.service';
 import { SoftSkillEditorComponent } from 'src/app/components/modals/soft-skill-editor/soft-skill-editor.component';
+import { Card } from 'src/app/general_classes/card';
 
 @Component({
   selector: 'app-soft-skill-card',
   templateUrl: './soft-skill-card.component.html',
   styleUrls: ['./soft-skill-card.component.css']
 })
-export class SoftSkillCardComponent implements OnInit {
+export class SoftSkillCardComponent extends Card implements OnInit {
 
-  @Input() loged:boolean = false;
-  @Input() loading:boolean = false;
-  @Input() card:SoftSkill = {
+  override card:SoftSkill = {
     id:0,
     name:'',
     description:'',
@@ -27,24 +26,17 @@ export class SoftSkillCardComponent implements OnInit {
       }
     ]
   };
-  @Input() dragging:boolean = false;
-  @Input() index:number = 0;
-  @Input() type:string = '';
-  @Output() setLoading = new EventEmitter<boolean>();
-  @Output() cardMove = new EventEmitter<{from:SoftSkill,to:string,updateDb:boolean}>();
-  @Output() startDrag = new EventEmitter<SoftSkill>();
-  @Output() enterDrag = new EventEmitter<SoftSkill>();
-  @Output() endDrag = new EventEmitter<void>();
-  @Output() overDrag = new EventEmitter<Event>();
-
-  changeSubscription:Subscription;
+  
   skillValue:number = 0;
+  changeSubscription:Subscription;
 
   constructor (
     private modalService: NgbModal,
     private contentLoader: ContentLoaderService
   ) {
+    super();
     this.changeSubscription = contentLoader.onSoftSkillsChange().subscribe(()=>this.refreshSkillValue());
+    this.modifyCard = () => modalService.open(SoftSkillEditorComponent, this.globalModalConfig);
   }
 
   ngOnInit(): void {
@@ -60,11 +52,6 @@ export class SoftSkillCardComponent implements OnInit {
     let total:number = 0;
     this.card.subSkills.forEach(subSkill => total += subSkill.value);
     this.skillValue = Math.trunc(total / this.card.subSkills.length);
-  }
-
-  editCard(): void {
-    let modal:NgbModalRef = this.modalService.open(SoftSkillEditorComponent, {backdrop: 'static', keyboard: false});
-    modal.componentInstance.card = this.card;
   }
 
 }
