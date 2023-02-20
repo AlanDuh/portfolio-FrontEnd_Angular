@@ -18,6 +18,7 @@
         [index]="content.indexOf(card)"
         [loading]="loading"
         [dragging]="dragging"
+        (overDrag)="onDragOver($event)"
         (startDrag)="onDragStart($event)"
         (enterDrag)="onDragEnter($event)"
         (endDrag)="onDragEnd()"

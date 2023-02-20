@@ -74,7 +74,7 @@ export class HardSkillsComponent implements OnInit {
         await this.updateDb([this.content[targetCardIdx], this.content[moveingCardIdx]]);
       }
     } else console.log('No existe a donde quieras mover esta carta');
-    this.setLoading.emit(false);
+    if (!this.dragging) this.setLoading.emit(false);
   }
 
   addCard() {
@@ -95,12 +95,17 @@ export class HardSkillsComponent implements OnInit {
     }
   }
 
-  onDragEnd() {
+  onDragOver(event:Event) {
+    if (this.dragging) event.preventDefault();
+  }
+
+  async onDragEnd() {
     let cardsToEdit:HardSkill[] = [];
     for (let idx in this.content) {
       if (this.content[idx] !== this.baseContent[idx]) cardsToEdit.push(this.content[idx]);
     }
-    if (cardsToEdit.length > 0) this.updateDb(cardsToEdit);
+    if (cardsToEdit.length > 0) await this.updateDb(cardsToEdit).then(()=>this.setLoading.emit(false));
+    else this.setLoading.emit(false);
   }
 
 }

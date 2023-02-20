@@ -4,7 +4,8 @@ import { Subscription } from 'rxjs';
 import { AccountSettingsService } from 'src/app/services/account-settings.service';
 import { ContentLoaderService } from 'src/app/services/content-loader.service';
 import { SoftSkill } from 'src/app/interfaces';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SoftSkillEditorComponent } from '../../modals/soft-skill-editor/soft-skill-editor.component';
 
 @Component({
   selector: 'app-soft-skills',
@@ -73,24 +74,38 @@ export class SoftSkillsComponent implements OnInit {
         await this.updateDb([this.content[targetCardIdx], this.content[moveingCardIdx]]);
       }
     } else console.log('No existe a donde quieras mover esta carta');
-    this.setLoading.emit(false);
+    if (!this.dragging) this.setLoading.emit(false);
   }
 
   addCard() {
-
+    this.modalService.open(SoftSkillEditorComponent, {backdrop: 'static', keyboard: false});
   }
 
   onDragStart(cardDragging:SoftSkill) {
-
+    this.setLoading.emit(true);
+    this.baseContent = [];
+    this.content.forEach(card => this.baseContent.push(card));
+    this.cardDragging = cardDragging;
+    this.dragging = true;
   }
 
   onDragEnter(cardOver:SoftSkill) {
-
+    if (this.dragging) {
+      this.moveCard(this.cardDragging as SoftSkill, cardOver, false);
+    }
   }
 
-  onDragEnd() {
-
+  onDragOver(event:Event) {
+    if (this.dragging) event.preventDefault();
   }
 
+  async onDragEnd() {
+    let cardsToEdit:SoftSkill[] = [];
+    for (let idx in this.content) {
+      if (this.content[idx] !== this.baseContent[idx]) cardsToEdit.push(this.content[idx]);
+    }
+    if (cardsToEdit.length > 0) await this.updateDb(cardsToEdit).then(()=>this.setLoading.emit(false));
+    else this.setLoading.emit(false);
+  }
 
 }

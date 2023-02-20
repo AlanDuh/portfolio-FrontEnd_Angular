@@ -1,0 +1,199 @@
+<div
+    class="modal-header justify-content-between align-items-center"
+    >
+    <div
+        style="width: 1em; height: 1em;"
+        class="m-2"
+        >
+    </div>
+    <h1
+        class="modal-title fs-5 text-center"
+        id="SSkill-modal-label"
+        >
+        Editar <i>skill</i>
+    </h1>
+    <button
+        type="button"
+        class="btn-close m-0"
+        aria-label="Close"
+        (click)="cancelEditing()"
+        [ngClass]="{'disabled':loading}"
+        >
+    </button>
+</div>
+<div
+    class="modal-body text-muted">
+    <form
+        style="font-size: .75em;"
+        >
+        <label
+            for="SSkill-name"
+            class="mb-1"
+            >
+            Titulo de <i>Skill</i>:
+        </label>
+        <input
+            class="form-control form-control-sm mb-3"
+            type="text"
+            id="SSkill-name"
+            name="card.name"
+            [(ngModel)]="card.name"
+            [ngClass]="{
+                'is-valid':card.name,
+                'is-invalid':!card.name
+            }"
+            [disabled]="loading"
+        >
+        <label
+            class="form-label"
+            for="SSkill-sub-skills"
+            >
+            <i>Sub-skills</i>:
+        </label>
+        <div
+            class="mb-3"
+            id="SSkill-sub-skills"
+            >
+            <div
+                *ngFor="let subSkill of card.subSkills"
+                class="m-2 row g-2 rounded bg-light shadow-sm"
+                [id]="'sub-skill-' + subSkill.id"
+                style="font-size: .74em;"
+                >
+                <div
+                    class="col-sm-4"
+                    >
+                    <label
+                        class="mb-1 form-label"
+                        [for]="'sub-skill-name-' + subSkill.id">
+                        Nombre de <i>sub-skill</i>:
+                    </label>
+                    <input
+                        class="form-control form-control-sm sub-skill-name"
+                        type="text"
+                        [id]="'sub-skill-name-' + subSkill.id"
+                        [name]="'sub-skill-name-' + subSkill.id"
+                        [(ngModel)]="card.subSkills[subSkill.id].name"
+                        [ngClass]="{
+                            'is-valid':card.subSkills[subSkill.id].name,
+                            'is-invalid':!card.subSkills[subSkill.id].name
+                        }"
+                        [disabled]="loading"
+                    >
+                </div>
+                <div
+                    class="col-sm-8"
+                    >
+                    <label
+                        class="form-label mb-1"
+                        [for]="'sub-skill-percent-' + subSkill.id"
+                        >
+                        Porcentaje de <i>sub-skill</i>:
+                    </label>
+                    <div
+                        class="input-group mb-2 flex-nowrap"
+                        style="font-size: 1em; height: 31px;"
+                        >
+                        <span
+                            class="input-group-text p-0 px-2"
+                            style="width: 4em;"
+                        >
+                        {{card.subSkills[subSkill.id].value}}%
+                        </span>
+                        <div
+                            class="d-flex align-items-center p-0 px-2 input-group-item border bg-white"
+                            style="flex-grow: 1;"
+                            >
+                            <input
+                                class="form-range"
+                                type="range"
+                                min="0"
+                                max="100"
+                                [id]="'sub-skill-percent-' + subSkill.id"
+                                [name]="'sub-skill-percent-' + subSkill.id"
+                                [(ngModel)]="card.subSkills[subSkill.id].value"
+                                [disabled]="loading"
+                            >
+                        </div>
+                        <button
+                            class="btn border p-0 px-2 bg-white text-danger"
+                            type="button"
+                            (click)="deleteSubSkill(subSkill)"
+                            [ngClass]="{'disabled': card.subSkills.length === 1}"
+                            [disabled]="loading"
+                            >
+                            <i
+                                class="fa-solid fa-xmark"
+                                title="Eliminar sub-skill"
+                                >
+                            </i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div
+            class="text-end mt-2"
+            >
+            <button
+                class="btn"
+                aria-label="Agregar sub skill"
+                style="background-color: #ddd559; font-size: .75em;"
+                (click)="addSubSkill()"
+                [disabled]="loading"
+                >
+                Agregar sub-skill
+            </button>
+        </div>
+        <div
+            class="mb-1"
+            >
+            <label
+                class="form-label"
+                for="SSkill-general"
+                >
+                Información general:
+            </label>
+            <textarea
+                class="form-control form-control-sm"
+                type="text"
+                name="card.description"
+                [(ngModel)]="card.description"
+                [ngClass]="{
+                    'is-valid':card.description,
+                    'is-invalid':!card.description
+                }"
+                [disabled]="loading"
+                >
+            </textarea>
+        </div>
+    </form>
+</div>
+<div
+    class="modal-footer position-relative"
+    >
+    <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="cancelEditing()"
+        [ngClass]="{'opacity-0':loading,'disabled':loading}"
+        >
+        Cancelar
+    </button>
+    <button
+        type="button"
+        class="btn btn-primary"
+        (click)="save()"
+        [ngClass]="{'opacity-0':loading,'disabled':loading}"
+        >
+        Guardar
+    </button>
+    <span
+        *ngIf="loading"
+        class="m-0 d-block position-absolute top-50 start-50 translate-middle text-muted"
+        >
+        <i
+            class="fa-solid fa-hurricane fa-spin text-muted"
+        ></i>
+    </span>
+</div>

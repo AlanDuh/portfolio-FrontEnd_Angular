@@ -10,10 +10,10 @@
         </section>
     </div>
     <section class="col-12 mt-5 smooth-text">
-        <app-hard-skills></app-hard-skills>
+        <app-hard-skills [loading]="loading" (setLoading)="Loading = $event"></app-hard-skills>
     </section>
     <section class="col-12 mt-5 smooth-text">
-        <app-soft-skills></app-soft-skills>
+        <app-soft-skills [loading]="loading" (setLoading)="Loading = $event"></app-soft-skills>
     </section>
 </main>
 <app-alerts-container></app-alerts-container>

@@ -1,5 +1,10 @@
 <div
     class="card h-100 overflow-hidden shadow-sm p-0 mx-3"
+    [draggable]="loged && !loading"
+    (dragover)="overDrag.emit($event)"
+    (dragstart)="startDrag.emit(card)"
+    (dragenter)="enterDrag.emit(card)"
+    (dragend)="endDrag.emit()"
     >
     <div
         *ngIf="loged"
@@ -10,6 +15,7 @@
             class="d-flex justify-content-end"
             >
             <button
+                [ngClass]="{'disabled':loading}"
                 (click)="cardMove.emit({from: card, to: 'forward', updateDb: true})"
                 type="button"
                 class="btn y-button"
@@ -21,6 +27,7 @@
                 </i>
             </button>
             <button
+                [ngClass]="{'disabled':loading}"
                 (click)="cardMove.emit({from: card, to: 'backward', updateDb: true})"
                 type="button"
                 class="btn y-button"
@@ -32,11 +39,11 @@
                 </i>
             </button>
             <button
+                [ngClass]="{'disabled':loading}"
+                (click)="editCard()"
                 type="button"
                 class="btn y-button"
                 title="Editar"
-                data-bs-toggle="modal"
-                data-bs-target="#SSkill-modal"
                 >
                 <i
                     class="fa-solid fa-pen-to-square"
@@ -44,9 +51,11 @@
                 </i>
             </button>
             <button
+                [ngClass]="{'disabled':loading}"
                 type="button"
                 title="Eliminar"
                 class="btn r-button"
+                (click)="deleteCard()"
                 >
                 <i
                     class="fa-solid fa-circle-xmark"

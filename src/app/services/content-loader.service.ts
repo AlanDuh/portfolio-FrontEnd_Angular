@@ -237,4 +237,13 @@ export class ContentLoaderService {
     }
   }
 
+  async deleteSoftSkill(cardToDelete:SoftSkill): Promise<boolean> {
+    return await new Promise(resolve => {
+      this.http.delete<SoftSkill>(this.dbUrl + 'softSkills/' + cardToDelete.id).subscribe(()=>{
+        this.softSkills = this.softSkills.filter(card => card !== cardToDelete);
+        this.softSkillsSubject.next(this.softSkills);
+        resolve(true);
+      })
+    });
+  }
 }

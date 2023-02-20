@@ -1,6 +1,7 @@
 <div 
     class="col position-relative p-0 mt-4 mx-3"
     [draggable]="loged && !loading"
+    (dragover)="overDrag.emit($event)"
     (dragstart)="startDrag.emit(card)"
     (dragenter)="enterDrag.emit(card)"
     (dragend)="endDrag.emit()"
@@ -95,6 +96,7 @@
             class="position-absolute top-50 start-50 translate-middle d-flex bg-secondary bg-opacity-50 rounded"
             >
             <button
+                [ngClass]="{'disabled':loading}"
                 type="button"
                 class="btn y-button"
                 title="Mover arriba"
@@ -106,6 +108,7 @@
                 </i>
             </button>
             <button
+                [ngClass]="{'disabled':loading}"
                 type="button"
                 class="btn y-button"
                 title="Mover abajo"
@@ -117,6 +120,7 @@
                 </i>
             </button>
             <button
+                [ngClass]="{'disabled':loading}"
                 type="button"
                 class="btn y-button"
                 title="Editar"
@@ -128,6 +132,7 @@
                 </i>
             </button>
             <button
+                [ngClass]="{'disabled':loading}"
                 type="button"
                 title="Eliminar"
                 class="btn r-button"

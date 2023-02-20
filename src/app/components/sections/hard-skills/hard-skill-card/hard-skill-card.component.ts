@@ -32,6 +32,7 @@ export class HardSkillCardComponent {
   @Output() startDrag = new EventEmitter<HardSkill>();
   @Output() enterDrag = new EventEmitter<HardSkill>();
   @Output() endDrag = new EventEmitter<void>();
+  @Output() overDrag = new EventEmitter<Event>();
 
   constructor (
     private modalService: NgbModal,

@@ -114,6 +114,25 @@ export class HardSkillEditorComponent implements OnInit {
     };
   }
 
+  cancelEditing() {
+    this.card.id = this.baseCard.id;
+    this.card.name = this.baseCard.name;
+    this.card.value = this.baseCard.value;
+    this.card.points = {
+      positives: [],
+      negatives: []
+    }
+    this.baseCard.points.positives.forEach(point => this.card.points.positives.push({
+      id: point.id,
+      content: point.content
+    }));
+    this.baseCard.points.negatives.forEach(point => this.card.points.negatives.push({
+      id: point.id,
+      content: point.content
+    }));
+    this.closeModal();
+  }
+
   closeModal(): void {
     this.activeModal.close();
   }

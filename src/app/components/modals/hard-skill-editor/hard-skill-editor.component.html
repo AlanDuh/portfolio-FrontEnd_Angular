@@ -17,7 +17,7 @@
         type="button"
         class="btn-close m-0"
         aria-label="Close"
-        (click)="closeModal()"
+        (click)="cancelEditing()"
         [ngClass]="{'disabled':loading}"
         >
     </button>
@@ -342,7 +342,7 @@
     <button
         type="button"
         class="btn btn-secondary"
-        (click)="closeModal()"
+        (click)="cancelEditing()"
         [ngClass]="{'opacity-0':loading,'disabled':loading}"
         >
         Cancelar
