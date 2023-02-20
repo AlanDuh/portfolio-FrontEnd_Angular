@@ -213,23 +213,23 @@ export class ContentLoaderService {
     });
   }
 
-  async setSoftSkill(newSoftSkill:SoftSkill, updateFront:boolean):Promise<string> {
-    let cardToEdit:SoftSkill|undefined = this.softSkills.find(card => card.id === newSoftSkill.id);
+  async setSoftSkill(item:SoftSkill, updateFront:boolean):Promise<string> {
+    let cardToEdit:SoftSkill|undefined = this.softSkills.find(card => card.id === item.id);
     if (cardToEdit) {
       return await new Promise(resolve => {
-        this.http.put<SoftSkill>(this.dbUrl + 'softSkills/' + newSoftSkill.id, newSoftSkill)
+        this.http.put<SoftSkill>(this.dbUrl + 'softSkills/' + item.id, item)
         .subscribe(()=>{
-          cardToEdit = newSoftSkill;
+          cardToEdit = item;
           if (updateFront) this.softSkillsSubject.next(this.softSkills);
           resolve('Información actualizada correctamente');
         })
       });
     } else {
-      newSoftSkill.id = this.getHighestIdFrom(this.softSkills) + 1;
+      item.id = this.getHighestIdFrom(this.softSkills) + 1;
       return await new Promise(resolve => {
-        this.http.post<SoftSkill>(this.dbUrl + 'softSkills', newSoftSkill)
+        this.http.post<SoftSkill>(this.dbUrl + 'softSkills', item)
         .subscribe(()=>{
-          this.softSkills.push(newSoftSkill);
+          this.softSkills.push(item);
           if (updateFront) this.softSkillsSubject.next(this.softSkills);
           resolve('Tarjeta añadida correctamente');
         })
