@@ -18,6 +18,9 @@ import { EducExpEditorComponent } from './components/modals/educ-exp-editor/educ
 import { HardSkillsComponent } from './components/sections/hard-skills/hard-skills.component';
 import { HardSkillCardComponent } from './components/sections/hard-skills/hard-skill-card/hard-skill-card.component';
 import { HardSkillEditorComponent } from './components/modals/hard-skill-editor/hard-skill-editor.component';
+import { SoftSkillsComponent } from './components/sections/soft-skills/soft-skills.component';
+import { SoftSkillCardComponent } from './components/sections/soft-skills/soft-skill-card/soft-skill-card.component';
+import { VoidHolderComponent } from './components/sections/void-holder/void-holder.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,10 @@ import { HardSkillEditorComponent } from './components/modals/hard-skill-editor/
     EducExpEditorComponent,
     HardSkillsComponent,
     HardSkillCardComponent,
-    HardSkillEditorComponent
+    HardSkillEditorComponent,
+    SoftSkillsComponent,
+    SoftSkillCardComponent,
+    VoidHolderComponent
   ],
   imports: [
     BrowserModule,

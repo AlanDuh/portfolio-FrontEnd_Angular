@@ -1,0 +1,154 @@
+<div
+    class="card h-100 overflow-hidden shadow-sm p-0 mx-3"
+    >
+    <div
+        *ngIf="loged"
+        class="card-header bg-white position-relative p-0"
+        style="z-index: 1;"
+        >
+        <div 
+            class="d-flex justify-content-end"
+            >
+            <button
+                (click)="cardMove.emit({from: card, to: 'forward', updateDb: true})"
+                type="button"
+                class="btn y-button"
+                title="Mover arriba"
+                >
+                <i
+                    class="fa-solid fa-circle-chevron-up"
+                    >
+                </i>
+            </button>
+            <button
+                (click)="cardMove.emit({from: card, to: 'backward', updateDb: true})"
+                type="button"
+                class="btn y-button"
+                title="Mover abajo"
+                >
+                <i
+                    class="fa-solid fa-circle-chevron-down"
+                    >
+                </i>
+            </button>
+            <button
+                type="button"
+                class="btn y-button"
+                title="Editar"
+                data-bs-toggle="modal"
+                data-bs-target="#SSkill-modal"
+                >
+                <i
+                    class="fa-solid fa-pen-to-square"
+                    >
+                </i>
+            </button>
+            <button
+                type="button"
+                title="Eliminar"
+                class="btn r-button"
+                >
+                <i
+                    class="fa-solid fa-circle-xmark"
+                    >
+                </i>
+            </button>
+        </div>
+    </div>
+    <ul
+        class="list-group list-group-flush d-flex flex-column h-100"
+        >
+        <li
+            class="list-group-item d-flex align-items-center"
+            style="flex-grow: 0;"
+            >
+            <h4
+                class="d-inline-block fs-5 me-3 mb-0"
+                >
+                {{card.name}}
+            </h4>
+            <div
+                class="progress"
+                style="flex-grow: 1; min-width: 33%;"
+                >
+                <div
+                    class="progress-bar"
+                    role="progressbar"
+                    style="width: 66%;"
+                    [style.width]="skillValue + '%'"
+                    aria-valuenow="skillValue"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    >
+                    {{skillValue}}%
+                </div>
+            </div>
+        </li>
+        <li
+            class="list-group-item accordion accordion-flush p-0"
+            style="flex-grow: 0;"
+            >
+            <div
+                class="accordion-item text-center"
+                >
+                <button
+                    class="accordion-button collapsed p-0 m-0 bg-white shadow-none"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    [attr.data-bs-target]="'#collapse-' + card.id"
+                    aria-expanded="false"
+                    [attr.aria-controls]="'collapse-' + card.id"
+                    >
+                </button>
+                <div
+                    class="accordion-collapse collapse"
+                    [id]="'collapse-' + card.id"
+                    >
+                    <div
+                        class="accordion-body pt-0"
+                        >
+                        <div
+                            *ngFor="let subSkill of card.subSkills"
+                            class="d-flex align-items-center"
+                            >
+                            <h5
+                                class="d-inline-block fs-6 m-0 me-3"
+                                >
+                                {{subSkill.name}}
+                            </h5>
+                            <div
+                                class="progress"
+                                style="flex-grow: 1; height: 1px;"
+                                >
+                                <div
+                                    class="progress-bar"
+                                    role="progressbar"
+                                    [style.width]="subSkill.value + '%'"
+                                    [attr.aria-valuenow]="subSkill.value"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100"
+                                    >
+                                </div>
+                            </div>
+                            <p
+                                class="d-inline-block fs-6 m-0 ms-3"
+                                >
+                                {{subSkill.value}}%
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li
+            class="list-group-item text-muted"
+            style="flex-grow: 1;"
+            >
+            <p
+                style="font-size: .85em;"
+                >
+                {{card.description}}
+            </p>
+        </li>
+    </ul>
+</div>

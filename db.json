@@ -170,22 +170,27 @@
       "description": "Cuando me pongo a pensar y planear el cómo de la realización de un proyecto (con el suficiente tiempo) puedo plantear soluciones por lo general satisfactorias y mínimamente estéticas. A su vez, durante la ejecución, suelo pensar constantemente, y en ocaciones me surgen ideas que pueden transformarse en mejores soluciones o complicaciones generando dudas y pérdidas de tiempo, más aún cuando las necesidades del proyecto implican la adaptación a un nuevo lenguaje o framework.",
       "subSkills": [
         {
+          "id":0,
           "name": "Creatividad",
           "value": 75
         },
         {
+          "id":1,
           "name": "Capacidad",
           "value": 65
         },
         {
+          "id":2,
           "name": "Concentración",
           "value": 55
         },
         {
+          "id":3,
           "name": "Velocidad",
           "value": 65
         },
         {
+          "id":4,
           "name": "Adaptación",
           "value": 70
         }
@@ -197,18 +202,22 @@
       "description": "En la mayoría de las ocaciónes me hé mostrado más comodo con el trabajo individual, pero en los contextos de necesidad de integrar un equipo he demostrado ser capaz de adaptarme, comunicarme, plantear ideas e iniciativas, y hasta liderar (si mis conocimientos son afines al tema a desarrollar).",
       "subSkills": [
         {
+          "id":0,
           "name": "Predisposición",
           "value": 50
         },
         {
+          "id":1,
           "name": "Integración",
           "value": 70
         },
         {
+          "id":2,
           "name": "Comunicación",
           "value": 75
         },
         {
+          "id":3,
           "name": "Liderazgo",
           "value": 65
         }
@@ -220,14 +229,17 @@
       "description": "Puedo leer, interpretar y escribir, pero carezco de la capacidad de entender las palabras de alguien que no hable lento y pausado, y cuento con una pronunciación básica.",
       "subSkills": [
         {
+          "id":0,
           "name": "Escritura",
           "value": 50
         },
         {
+          "id":1,
           "name": "Lectura",
           "value": 65
         },
         {
+          "id":2,
           "name": "Comunicación Oral",
           "value": 20
         }

@@ -24,7 +24,6 @@
     (cardMove)="moveCard($event.from, $event.to, $event.updateDb)"
     *ngFor="let card of content"
 ></app-hard-skill-card>
-<app-hard-skill-card
-    [type]="'voidHolder'"
+<app-void-holder
     *ngIf="content.length === 0"
-></app-hard-skill-card>
+></app-void-holder>

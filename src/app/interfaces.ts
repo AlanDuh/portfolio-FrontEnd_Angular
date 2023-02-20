@@ -8,9 +8,16 @@ export interface StoredImage {
     id:number,
     src:string
 }
+
 export interface StoredString {
     id:number,
     content:string
+}
+
+export interface StoredValue {
+    id:number,
+    name:string,
+    value:number
 }
 
 export interface Account {
@@ -58,10 +65,7 @@ export interface SoftSkill {
     id:number,
     name:string,
     description:string,
-    subSkills:{
-        name:string,
-        value:number
-    }[]
+    subSkills:StoredValue[]
 }
 
 export interface Projects {

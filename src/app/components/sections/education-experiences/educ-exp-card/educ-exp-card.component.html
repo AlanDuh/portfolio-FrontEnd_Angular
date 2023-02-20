@@ -1,5 +1,4 @@
 <div
-    *ngIf="type !== 'voidHolder'"
     [draggable]="loged && !loading"
     (dragstart)="onDragStart()"
     (dragenter)="onDragEnter()"
@@ -65,12 +64,4 @@
             {{card.general}}
         </p>
     </div>
-</div>
-<div
-    class="card mx-3 mt-4 shadow-sm"
-    *ngIf="type === 'voidHolder'"
-    ><h6
-        class="fw-bold p-3 m-0 text-center">
-        No hay nada aquí
-    </h6>
 </div>

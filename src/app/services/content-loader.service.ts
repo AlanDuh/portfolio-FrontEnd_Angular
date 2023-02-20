@@ -213,4 +213,28 @@ export class ContentLoaderService {
     });
   }
 
+  async setSoftSkill(newSoftSkill:SoftSkill, updateFront:boolean):Promise<string> {
+    let cardToEdit:SoftSkill|undefined = this.softSkills.find(card => card.id === newSoftSkill.id);
+    if (cardToEdit) {
+      return await new Promise(resolve => {
+        this.http.put<SoftSkill>(this.dbUrl + 'softSkills/' + newSoftSkill.id, newSoftSkill)
+        .subscribe(()=>{
+          cardToEdit = newSoftSkill;
+          if (updateFront) this.softSkillsSubject.next(this.softSkills);
+          resolve('Información actualizada correctamente');
+        })
+      });
+    } else {
+      newSoftSkill.id = this.getHighestIdFrom(this.softSkills) + 1;
+      return await new Promise(resolve => {
+        this.http.post<SoftSkill>(this.dbUrl + 'softSkills', newSoftSkill)
+        .subscribe(()=>{
+          this.softSkills.push(newSoftSkill);
+          if (updateFront) this.softSkillsSubject.next(this.softSkills);
+          resolve('Tarjeta añadida correctamente');
+        })
+      });
+    }
+  }
+
 }

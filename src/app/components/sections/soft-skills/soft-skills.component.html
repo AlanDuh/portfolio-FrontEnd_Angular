@@ -1,0 +1,31 @@
+<h2 class="fw-bold mb-0 d-flex align-items-center justify-content-center">
+    <i>Soft Skills</i>
+    <span
+        *ngIf="loged"
+        [ngClass]="{'disabled':loading}"
+        class="btn py-0 border-0 y-button"
+        (click)="addCard()"
+        ><i
+            class="fa-solid fa-circle-plus"
+        ></i>
+    </span>
+</h2>
+<div class="row row-cols-1 row-cols-md-2 g-4 m-0">
+    <app-soft-skill-card
+        class="p-0"
+        [card]="card"
+        [loged]="loged"
+        [index]="content.indexOf(card)"
+        [loading]="loading"
+        [dragging]="dragging"
+        (startDrag)="onDragStart($event)"
+        (enterDrag)="onDragEnter($event)"
+        (endDrag)="onDragEnd()"
+        (setLoading)="setLoading.emit($event)"
+        (cardMove)="moveCard($event.from, $event.to, $event.updateDb)"
+        *ngFor="let card of content"
+    ></app-soft-skill-card>
+</div>
+<app-void-holder
+    *ngIf="content.length === 0"
+></app-void-holder>
