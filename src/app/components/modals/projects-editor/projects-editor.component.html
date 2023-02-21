@@ -1,1 +1,227 @@
-<p>projects-editor works!</p>
+
+<div
+    class="modal-header justify-content-between align-items-center"
+    >
+    <div
+        style="width: 1em; height: 1em;"
+        class="m-2"
+        >
+    </div>
+    <h1
+        class="modal-title fs-5 text-center"
+        id="Project-modal-label"
+        >
+        Editar Proyecto
+    </h1>
+    <button
+        type="button"
+        class="btn-close m-0"
+        aria-label="Close"
+        (click)="cancelEditing()"
+        [ngClass]="{'disabled':loading}"
+        >
+    </button>
+</div>
+<div
+    class="modal-body text-muted"
+    >
+    <form
+        style="font-size: .75em;"
+        >
+        <div
+            class="mb-3"
+            >
+            <label
+                class="form-label"
+                for="project-name"
+                >
+                Nombre del proyecto:
+            </label>
+            <input
+                class="form-control form-control-sm"
+                type="text"
+                name="card.name"
+                [(ngModel)]="card.name"
+                [ngClass]="{
+                    'is-valid':card.name,
+                    'is-invalid':!card.name
+                }"
+                [disabled]="loading"
+            >
+        </div>
+        <label
+            class="form-label"
+            for="project-images"
+            >
+            Imagenes:
+        </label>
+        <app-thumbnail-container
+            [bannerImages]="card.images"
+            >
+        </app-thumbnail-container>
+        <div
+            class="mb-3 input-group input-group-sm mb-1"
+            >
+            <div
+                class="input-group input-group-sm"
+                >
+                <div
+                    class="input-group-text"
+                    >
+                    <i
+                        class="fa-solid fa-plus btn p-0 border-0"
+                        style="font-size: .75em;"
+                        filetype="link"
+                        [ngClass]="{
+                            'disabled':loading
+                        }"
+                        (click)="addImage()"
+                        title="Añadir"
+                        >
+                    </i>
+                </div>
+                <div
+                    class="input-group-text position-relative"
+                    >
+                    <label
+                        class="form-label m-0"
+                        for="project-img-file"
+                        >
+                        Inserte Archivo
+                    </label>
+                    <input
+                        class="form-control form-control-sm position-absolute opacity-0 start-0 top-0"
+                        type="file"
+                        [disabled]="loading"
+                        (input)="fileInput($event)"
+                        accept="image/png, image/jpeg"
+                    >
+                </div>
+                <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    aria-label="insertar enlace de un archivo .png o .jpg"
+                    name="imgSrc"
+                    [(ngModel)]="imgSrc"
+                    [disabled]="loading"
+                    placeholder="Enlace de una imagen (.png o .jpg)"
+                >
+            </div>
+        </div>
+        <div
+            class="mb-3"
+            >
+            <label
+                class="form-label"
+                for="project-description"
+                >
+                Descripción:
+            </label>
+            <textarea
+                class="form-control"
+                style="font-size: .85em;"
+                name="card.description"
+                [(ngModel)]="card.description"
+                [ngClass]="{
+                    'is-valid':card.description,
+                    'is-invalid':!card.description
+                }"
+                [disabled]="loading"
+                rows="3"
+                placeholder="Una breve descripción del proyecto..."
+                >
+            </textarea>                            
+        </div>
+        <div
+            class="mb-3 row g-2"
+            style="font-size: .74em;"
+            >
+            <label
+                for="project-date"
+                class="mb-1"
+                >
+                Fecha de publicación (ultima versión):
+            </label>
+            <input
+                class="form-control form-control-sm"
+                type="date"
+                name="card.date"
+                [(ngModel)]="card.date"
+                [ngClass]="{
+                    'is-valid':card.date,
+                    'is-invalid':!card.date
+                }"
+                [disabled]="loading"
+            >
+        </div>
+        <div
+            class="mb-1"
+            >
+            <label
+                class="form-label"
+                for="project-link"
+                >
+                Link del proyecto:
+            </label>
+            <input
+                class="form-control form-control-sm"
+                type="text"
+                name="card.links.page"
+                [(ngModel)]="card.links.page"
+                [ngClass]="{
+                    'is-valid':card.links.page,
+                    'is-invalid':!card.links.page
+                }"
+                [disabled]="loading"
+            >
+        </div>
+        <div
+            class="mb-1"
+            >
+            <label
+                class="form-label"
+                for="project-github"
+                >
+                GitHub del proyecto:
+            </label>
+            <input
+                class="form-control form-control-sm"
+                type="text"
+                name="card.links.gitHub"
+                [(ngModel)]="card.links.gitHub"
+                [ngClass]="{
+                    'is-valid':card.links.gitHub,
+                    'is-invalid':!card.links.gitHub
+                }"
+                [disabled]="loading"
+            >
+        </div>
+    </form>
+</div>
+<div
+    class="modal-footer position-relative">
+    <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="cancelEditing()"
+        [ngClass]="{'opacity-0':loading,'disabled':loading}"
+        >
+        Cancelar
+    </button>
+    <button
+        type="button"
+        class="btn btn-primary"
+        (click)="save()"
+        [ngClass]="{'opacity-0':loading,'disabled':loading}"
+        >
+        Guardar
+    </button>
+    <span
+        *ngIf="loading"
+        class="m-0 d-block position-absolute top-50 start-50 translate-middle text-muted"
+        >
+        <i
+            class="fa-solid fa-hurricane fa-spin text-muted"
+        ></i>
+    </span>
+</div>
