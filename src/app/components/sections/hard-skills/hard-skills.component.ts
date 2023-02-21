@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AccountSettingsService } from 'src/app/services/account-settings.service';
 import { ContentLoaderService } from 'src/app/services/content-loader.service';
 import { HardSkill } from 'src/app/interfaces';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HardSkillEditorComponent } from '../../modals/hard-skill-editor/hard-skill-editor.component';
 import { Section } from 'src/app/general_classes/section';
 

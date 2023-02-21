@@ -14,7 +14,7 @@
     [type]="type"
     [card]="card"
     [loged]="loged"
-    [index]="cardsContainer.indexOf(card)"
+    [index]="content.indexOf(card)"
     [loading]="loading"
     [dragging]="dragging"
     (startDrag)="onDragStart($event)"
@@ -22,8 +22,8 @@
     (endDrag)="onDragEnd()"
     (setLoading)="setLoading.emit($event)"
     (cardMove)="moveCard($event.from, $event.to, $event.updateDb)"
-    *ngFor="let card of cardsContainer"
+    *ngFor="let card of content"
 ></app-educ-exp-card>
 <app-void-holder
-    *ngIf="cardsContainer.length === 0"
+    *ngIf="content.length === 0"
 ></app-void-holder>

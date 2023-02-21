@@ -1,8 +1,8 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { HardSkill } from 'src/app/interfaces';
 import { HardSkillEditorComponent } from 'src/app/components/modals/hard-skill-editor/hard-skill-editor.component';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ContentLoaderService } from 'src/app/services/content-loader.service';
 import { Card } from 'src/app/general_classes/card';
 

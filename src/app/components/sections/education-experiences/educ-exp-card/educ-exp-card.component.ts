@@ -1,19 +1,19 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { EducExp } from 'src/app/interfaces';
 import { EducExpEditorComponent } from 'src/app/components/modals/educ-exp-editor/educ-exp-editor.component';
 import { ContentLoaderService } from 'src/app/services/content-loader.service';
+import { Card } from 'src/app/general_classes/card';
 
 @Component({
   selector: 'app-educ-exp-card',
   templateUrl: './educ-exp-card.component.html',
   styleUrls: ['./educ-exp-card.component.css']
 })
-export class EducExpCardComponent implements OnInit {
+export class EducExpCardComponent extends Card implements OnInit {
 
-  @Input() type:string = '';
-  @Input() card:EducExp = {
+  override card:EducExp = {
     id:0,
     concept:'',
     institutionImage:null,
@@ -26,22 +26,20 @@ export class EducExpCardComponent implements OnInit {
     },
     general:null
   };
-  @Input() loged:boolean = false;
-  @Input() index:number = 0;
-  @Input() loading:boolean = false;
-  @Input() dragging:boolean = false;
-  @Output() setLoading = new EventEmitter<boolean>();
-  @Output() cardMove = new EventEmitter<{from:number,to:number,updateDb:boolean}>();
-  @Output() startDrag = new EventEmitter<number>();
-  @Output() enterDrag = new EventEmitter<number>();
-  @Output() endDrag = new EventEmitter<void>();
   bgImage:string = '/';
-  draggingCardId:number = 0;
 
   constructor (
     private modalService: NgbModal,
     private contentLoader: ContentLoaderService
-  ) { }
+  ) {
+    super();
+    // this.modifyCard = () => {
+    //   let openModal:NgbModalRef = this.modalService.open(EducExpEditorComponent, {backdrop: 'static', keyboard: false});
+    //   openModal.componentInstance.idx = this.index;
+    //   openModal.componentInstance.type = this.type;
+    //   return openModal;
+    // }
+  }
 
   ngOnInit():void {
     switch (this.type) {
@@ -68,40 +66,16 @@ export class EducExpCardComponent implements OnInit {
     return newDate.getUTCDate() + '/' + (newDate.getUTCMonth() + 1) + '/' + newDate.getUTCFullYear();
   }
 
-  moveForward() {
-    this.cardMove.emit({from:this.index, to:this.index - 1, updateDb:true});
-  }
-
-  moveBackward() {
-    this.cardMove.emit({from:this.index, to:this.index + 1, updateDb:true});
-  }
-
   async deleteCard() {
     this.setLoading.emit(true);
     await this.contentLoader.deleteEducExp(this.card.id, this.type).then();
     this.setLoading.emit(false);
   }
 
-  editCard():void {
-    let openModal:NgbModalRef = this.modalService.open(EducExpEditorComponent, {backdrop: 'static', keyboard: false});
+  override editCard():void {
+    let openModal:NgbModalRef = this.modalService.open(EducExpEditorComponent, this.globalModalConfig);
     openModal.componentInstance.idx = this.index;
     openModal.componentInstance.type = this.type;
-  }
-
-  onDragStart() {
-    this.startDrag.emit(this.card.id);
-  }
-
-  onDragEnter() {
-    this.enterDrag.emit(this.card.id);
-  }
-
-  onDragOver(event:Event) {
-    if (this.dragging) event.preventDefault();
-  }
-
-  onDragEnd() {
-    this.endDrag.emit();
   }
 
 }

@@ -1,8 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { SoftSkill } from 'src/app/interfaces';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ContentLoaderService } from 'src/app/services/content-loader.service';
 import { SoftSkillEditorComponent } from 'src/app/components/modals/soft-skill-editor/soft-skill-editor.component';
 import { Card } from 'src/app/general_classes/card';
