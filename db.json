@@ -253,10 +253,22 @@
       "description": "Primera versión <i>'completa'</i> de mi <b>Portfolio personal</b>, realizado mediante la utilización de lenguaje HTML, CSS, Bootstrap, JavaScript y TypeSctript, para ser presentado como entrega de la <i>Tarea desafío del módulo 2</i>. Al <i>iniciar sesión</i> se abre una interfaz que busca simular la edición de datos en tiempo real, que permite: eliminar, crear nuevas cartas para cada sección, editar las existentes, adjuntar archivos locales, y moverlas (con botones o arrastrando).",
       "date": "2023-01-27",
       "images": [
-        "imgs/portfolio1.png",
-        "imgs/portfolio2.png",
-        "imgs/portfolio3.png",
-        "imgs/portfolio4.png"
+        {
+          "id": 1,
+          "src": "../../../../../assets/imgs/portfolio1.png"
+        },
+        {
+          "id": 2,
+          "src": "../../../../../assets/imgs/portfolio2.png"
+        },
+        {
+          "id": 3,
+          "src": "../../../../../assets/imgs/portfolio3.png"
+        },
+        {
+          "id": 4,
+          "src": "../../../../../assets/imgs/portfolio4.png"
+        }
       ],
       "links": {
         "page": "/",

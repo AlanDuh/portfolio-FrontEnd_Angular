@@ -22,6 +22,9 @@ import { SoftSkillsComponent } from './components/sections/soft-skills/soft-skil
 import { SoftSkillCardComponent } from './components/sections/soft-skills/soft-skill-card/soft-skill-card.component';
 import { VoidHolderComponent } from './components/sections/void-holder/void-holder.component';
 import { SoftSkillEditorComponent } from './components/modals/soft-skill-editor/soft-skill-editor.component';
+import { ProjectsComponent } from './components/sections/projects/projects.component';
+import { ProjectCardComponent } from './components/sections/projects/project-card/project-card.component';
+import { ProjectsEditorComponent } from './components/modals/projects-editor/projects-editor.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +44,10 @@ import { SoftSkillEditorComponent } from './components/modals/soft-skill-editor/
     SoftSkillsComponent,
     SoftSkillCardComponent,
     VoidHolderComponent,
-    SoftSkillEditorComponent
+    SoftSkillEditorComponent,
+    ProjectsComponent,
+    ProjectCardComponent,
+    ProjectsEditorComponent
   ],
   imports: [
     BrowserModule,

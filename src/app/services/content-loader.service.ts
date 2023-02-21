@@ -246,4 +246,39 @@ export class ContentLoaderService {
       })
     });
   }
+
+  async setProject(item:Projects, updateFront:boolean):Promise<string> {
+    let cardToEdit:Projects|undefined = this.projects.find(card => card.id === item.id);
+    if (cardToEdit) {
+      return await new Promise(resolve => {
+        this.http.put<Projects>(this.dbUrl + 'projects/' + item.id, item)
+        .subscribe(()=>{
+          cardToEdit = item;
+          if (updateFront) this.projectsSubject.next(this.projects);
+          resolve('Información actualizada correctamente');
+        })
+      });
+    } else {
+      item.id = this.getHighestIdFrom(this.projects) + 1;
+      return await new Promise(resolve => {
+        this.http.post<Projects>(this.dbUrl + 'projects', item)
+        .subscribe(()=>{
+          this.projects.push(item);
+          if (updateFront) this.projectsSubject.next(this.projects);
+          resolve('Tarjeta añadida correctamente');
+        })
+      });
+    }
+  }
+
+  async deleteProject(cardToDelete:Projects): Promise<boolean> {
+    return await new Promise(resolve => {
+      this.http.delete<Projects>(this.dbUrl + 'projects/' + cardToDelete.id).subscribe(()=>{
+        this.projects = this.projects.filter(card => card !== cardToDelete);
+        this.projectsSubject.next(this.projects);
+        resolve(true);
+      })
+    });
+  }
+
 }

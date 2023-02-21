@@ -61,9 +61,14 @@ export class EducExpCardComponent extends Card implements OnInit {
     }
   }
 
+  addLeftZero(num:number): string {
+    let str = num.toString();
+    return (str.length === 1)? '0' + str: str;
+  }
+
   generateDate(date:string|null):string {
     let newDate = new Date(date as string);
-    return newDate.getUTCDate() + '/' + (newDate.getUTCMonth() + 1) + '/' + newDate.getUTCFullYear();
+    return this.addLeftZero(newDate.getUTCDate()) + '/' + this.addLeftZero(newDate.getUTCMonth() + 1) + '/' + newDate.getUTCFullYear();
   }
 
   async deleteCard() {

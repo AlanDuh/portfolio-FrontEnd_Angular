@@ -1,0 +1,211 @@
+<div
+    class="card h-100 shadow-sm overflow-hidden p-0 mx-3"
+    [draggable]="loged && !loading"
+    (dragover)="overDrag.emit($event)"
+    (dragstart)="startDrag.emit(card)"
+    (dragenter)="enterDrag.emit(card)"
+    (dragend)="endDrag.emit()"
+    >
+    <div
+        *ngIf="loged"
+        class="card-header bg-white position-relative p-0"
+        style="z-index: 1;"
+        >
+        <div 
+            class="d-flex justify-content-end"
+            >
+            <button
+                [ngClass]="{'disabled':loading}"
+                (click)="cardMove.emit({from: card, to: 'forward', updateDb: true})"
+                type="button"
+                class="btn y-button"
+                title="Mover arriba"
+                >
+                <i
+                    class="fa-solid fa-circle-chevron-up"
+                    >
+                </i>
+            </button>
+            <button
+                [ngClass]="{'disabled':loading}"
+                (click)="cardMove.emit({from: card, to: 'backward', updateDb: true})"
+                type="button"
+                class="btn y-button"
+                title="Mover abajo"
+                >
+                <i
+                    class="fa-solid fa-circle-chevron-down"
+                    >
+                </i>
+            </button>
+            <button
+                [ngClass]="{'disabled':loading}"
+                (click)="editCard()"
+                type="button"
+                class="btn y-button"
+                title="Editar"
+                >
+                <i
+                    class="fa-solid fa-pen-to-square"
+                    >
+                </i>
+            </button>
+            <button
+                [ngClass]="{'disabled':loading}"
+                type="button"
+                title="Eliminar"
+                class="btn r-button"
+                (click)="deleteCard()"
+                >
+                <i
+                    class="fa-solid fa-circle-xmark"
+                    >
+                </i>
+            </button>
+        </div>
+    </div>
+    <div
+        class="w-100 h-100 m-0 d-flex flex-column"
+        >
+        <div
+            class="shadow-sm p-0 border-bottom"
+            style="height: 300px; flex-grow: 0;"
+            >
+            <img
+                *ngIf="card.images.length === 1"
+                class="w-100 h-100 object-fit-cover"
+                [alt]="card.name + 'project - image ' + card.images[0].id"
+                [src]="card.images[0].src"
+            >
+            <div
+                *ngIf="card.images.length > 1"
+                class="carousel slide w-100 h-100"
+                data-bs-ride="true"
+                [id]="'project-' + card.id + '-images'"
+                >
+                <div
+                    class="carousel-indicators"
+                    >
+                    <button
+                        *ngFor="let img of card.images"
+                        [ngClass]="{'active':img.id === card.images[0].id}"
+                        type="button"
+                        [attr.data-bs-target]="'#project-' + card.id + '-images'"
+                        [attr.data-bs-slide-to]="card.images.indexOf(img)"
+                        [attr.aria-label]="'Image ' + img.id"
+                        [attr.aria-current]="img.id === card.images[0].id"
+                        >
+                    </button>
+                </div>
+                <div
+                    class="carousel-inner w-100 h-100"
+                    >
+                    <div
+                        *ngFor="let img of card.images"
+                        class="carousel-item w-100 h-100"
+                        [ngClass]="{'active':img.id === card.images[0].id}"
+                        >
+                        <img
+                            class="d-block w-100 h-100 object-fit-cover"
+                            [alt]="card.name + 'project - image ' + img.id"
+                            [src]="img.src"
+                        >
+                    </div>
+                </div>
+                <button
+                    class="carousel-control-prev"
+                    type="button"
+                    [attr.data-bs-target]="'#project-' + card.id + '-images'"
+                    data-bs-slide="prev"
+                    >
+                    <span
+                        class="carousel-control-prev-icon"
+                        aria-hidden="true"
+                        >
+                    </span>
+                    <span
+                        class="visually-hidden"
+                        >
+                        Previous
+                    </span>
+                </button>
+                <button
+                    class="carousel-control-next"
+                    type="button"
+                    [attr.data-bs-target]="'#project-' + card.id + '-images'"
+                    data-bs-slide="next"
+                    >
+                    <span
+                        class="carousel-control-next-icon"
+                        aria-hidden="true"
+                        >
+                    </span>
+                    <span
+                        class="visually-hidden"
+                        >
+                        Next
+                    </span>
+                </button>
+            </div>
+        </div>
+        <div
+            class="text-center d-flex flex-column"
+            style="flex-grow: 1;"
+            >
+            <div
+                style="flex-grow: 1;"
+                >
+                <h3
+                    class="card-title m-3 fs-5 fw-bold"
+                    >
+                    {{card.name}}
+                </h3>
+                <hr
+                    class="d-block mx-3"
+                >
+                <p
+                    class="card-text text-muted m-3"
+                    style="font-size: .85em; flex-grow: 1;"
+                    >
+                    {{card.description}}
+                </p>
+            </div>
+            <div
+                >
+                <hr
+                    class="d-block mx-3 mt-0"
+                >
+                <p
+                    class="card-text text-muted m-3"
+                    style="font-size: .85em;"
+                    >
+                    Fecha de la última versión: 
+                    <span
+                        >
+                        {{generateDate(card.date)}}
+                    </span>
+                </p>
+            </div>
+            <div
+                class="d-flex justify-content-center"
+                >
+                <a
+                    class="btn btn-primary mb-3 mt-0"
+                    [href]="card.links.page"
+                    >
+                    Ir a la página
+                </a>
+                <a
+                    class="btn btn-outline-dark m-3 mt-0"
+                    title="GitHub"
+                    [href]="card.links.gitHub"
+                    >
+                    <i
+                        class="fa-brands fa-github"
+                        >
+                    </i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
