@@ -250,8 +250,8 @@
     {
       "id": 1,
       "name": "Portfolio",
-      "description": "Primera versión <i>'completa'</i> de mi <b>Portfolio personal</b>, realizado mediante la utilización de lenguaje HTML, CSS, Bootstrap, JavaScript y TypeSctript, para ser presentado como entrega de la <i>Tarea desafío del módulo 2</i>. Al <i>iniciar sesión</i> se abre una interfaz que busca simular la edición de datos en tiempo real, que permite: eliminar, crear nuevas cartas para cada sección, editar las existentes, adjuntar archivos locales, y moverlas (con botones o arrastrando).",
-      "date": "2023-01-27",
+      "description": "Segunda versión de mi Portfolio personal, creado utilizando el framework de Angular. Cuenta con las mismas características de la primer versión (logeo y edición), con el agregado de la conexión a una base de datos JSON de la cual se solicita información y se la edita, además de que cuenta con una estructuración más limpia y ordenada que la versión original, utilizando recursos de Bootstrap 5 (tipeado mediante HTML -principalmente en el diseño a plena vista- y mediante lo provisto por la extensión de Bootstrap para Angular -utilizado para los menúes de edición-).",
+      "date": "2023-02-21",
       "images": [
         {
           "id": 1,
@@ -272,7 +272,7 @@
       ],
       "links": {
         "page": "/",
-        "gitHub": "https://github.com/AlanDuh/portfolio-FrontEnd"
+        "gitHub": "https://github.com/AlanDuh/portfolio-FrontEnd_Angular"
       }
     }
   ]
