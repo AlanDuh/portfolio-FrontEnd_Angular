@@ -17,7 +17,7 @@ export class ContentLoaderService {
   hardSkills:HardSkill[] = [];
   projects:Projects[] = [];
 
-  private dbUrl:string = 'http://localhost:8080/';
+  private dbUrl:string = 'https://portfolio-backend-f91r.onrender.com/';
   private ownerInfoSubject = new Subject<OwnerInfo>();
   private educationSubject = new Subject<EducExp[]>();
   private experiencesSubject = new Subject<EducExp[]>();

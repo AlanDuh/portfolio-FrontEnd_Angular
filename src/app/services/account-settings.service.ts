@@ -12,7 +12,7 @@ export class AccountSettingsService {
 
   private loged:boolean = false;
   private subject = new Subject<any>();
-  private adaminSettingsUrl:string = 'http://localhost:8080/account/tryToLog';
+  private adaminSettingsUrl:string = 'https://portfolio-backend-f91r.onrender.com/account/tryToLog';
 
   constructor(
     private http:HttpClient,
