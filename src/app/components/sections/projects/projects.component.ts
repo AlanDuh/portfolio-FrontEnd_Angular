@@ -16,14 +16,14 @@ export class ProjectsComponent extends Section implements OnInit {
 
   constructor (
     private accountService: AccountSettingsService,
-    private contentLoader: ContentLoaderService,
+    override contentLoader: ContentLoaderService,
     private modalService: NgbModal
   ) {
     super();
     this.dataBaseItemModify = async (item:any, updateFront:boolean) => {
       return await new Promise(resolve => {
-        this.contentLoader.setProject(item as Projects, updateFront)
-          .then(value => resolve(value));
+        // this.contentLoader.setProject(item as Projects, updateFront)
+          // .then(value => resolve(value));
       })
     }
     this.addCard = () => this.modalService.open(ProjectsEditorComponent, this.globalModalConfig);
@@ -32,7 +32,7 @@ export class ProjectsComponent extends Section implements OnInit {
   }
 
   ngOnInit():void {
-    this.contentLoader.getDbProjects();
+    // this.contentLoader.getDbProjects();
   }
 
 }

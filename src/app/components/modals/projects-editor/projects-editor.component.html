@@ -17,7 +17,7 @@
         type="button"
         class="btn-close m-0"
         aria-label="Close"
-        (click)="cancelEditing()"
+        (click)="closeModal()"
         [ngClass]="{'disabled':loading}"
         >
     </button>
@@ -27,6 +27,7 @@
     >
     <form
         style="font-size: .75em;"
+        [formGroup]="form"
         >
         <div
             class="mb-3"
@@ -41,10 +42,10 @@
                 class="form-control form-control-sm"
                 type="text"
                 name="card.name"
-                [(ngModel)]="card.name"
+                formControlName="name"
                 [ngClass]="{
-                    'is-valid':card.name,
-                    'is-invalid':!card.name
+                    'is-valid':!Name?.errors,
+                    'is-invalid':Name?.errors
                 }"
                 [disabled]="loading"
             >
@@ -56,7 +57,7 @@
             Imagenes:
         </label>
         <app-thumbnail-container
-            [bannerImages]="card.images"
+            [bannerImages]="images"
             >
         </app-thumbnail-container>
         <div
@@ -80,7 +81,7 @@
                         >
                     </i>
                 </div>
-                <div
+                <!-- <div
                     class="input-group-text position-relative"
                     >
                     <label
@@ -96,13 +97,14 @@
                         (input)="fileInput($event)"
                         accept="image/png, image/jpeg"
                     >
-                </div>
+                </div> -->
                 <input
                     class="form-control form-control-sm"
                     type="text"
                     aria-label="insertar enlace de un archivo .png o .jpg"
                     name="imgSrc"
                     [(ngModel)]="imgSrc"
+                    [ngModelOptions]="{standalone: true}"
                     [disabled]="loading"
                     placeholder="Enlace de una imagen (.png o .jpg)"
                 >
@@ -121,10 +123,10 @@
                 class="form-control"
                 style="font-size: .85em;"
                 name="card.description"
-                [(ngModel)]="card.description"
+                formControlName="description"
                 [ngClass]="{
-                    'is-valid':card.description,
-                    'is-invalid':!card.description
+                    'is-valid':!Description?.errors,
+                    'is-invalid':Description?.errors
                 }"
                 [disabled]="loading"
                 rows="3"
@@ -146,10 +148,10 @@
                 class="form-control form-control-sm"
                 type="date"
                 name="card.date"
-                [(ngModel)]="card.date"
+                formControlName="date"
                 [ngClass]="{
-                    'is-valid':card.date,
-                    'is-invalid':!card.date
+                    'is-valid':!Date?.errors,
+                    'is-invalid':Date?.errors
                 }"
                 [disabled]="loading"
             >
@@ -167,10 +169,10 @@
                 class="form-control form-control-sm"
                 type="text"
                 name="card.links.page"
-                [(ngModel)]="card.links.page"
+                formControlName="pageLink"
                 [ngClass]="{
-                    'is-valid':card.links.page,
-                    'is-invalid':!card.links.page
+                    'is-valid':!PageLink?.errors,
+                    'is-invalid':PageLink?.errors
                 }"
                 [disabled]="loading"
             >
@@ -188,10 +190,10 @@
                 class="form-control form-control-sm"
                 type="text"
                 name="card.links.gitHub"
-                [(ngModel)]="card.links.gitHub"
+                formControlName="gitHubLink"
                 [ngClass]="{
-                    'is-valid':card.links.gitHub,
-                    'is-invalid':!card.links.gitHub
+                    'is-valid':!GitHubLink?.errors,
+                    'is-invalid':GitHubLink?.errors
                 }"
                 [disabled]="loading"
             >
@@ -203,7 +205,7 @@
     <button
         type="button"
         class="btn btn-secondary"
-        (click)="cancelEditing()"
+        (click)="closeModal()"
         [ngClass]="{'opacity-0':loading,'disabled':loading}"
         >
         Cancelar

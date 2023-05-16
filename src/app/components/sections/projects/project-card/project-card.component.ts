@@ -14,15 +14,15 @@ import { Projects } from 'src/app/interfaces';
 export class ProjectCardComponent extends Card {
 
   override card:Projects = {
-    id:0,
-    name:'',
-    description:'',
-    date:'',
-    images:[],
-    links:{
-        page:'',
-        gitHub:''
-    }
+    id: 0,
+    name: '',
+    idx: -1,
+    type: '',
+    description: '',
+    date: null,
+    images: [],
+    pageLink: '',
+    gitHubLink: ''
   };
 
   constructor (
@@ -43,9 +43,10 @@ export class ProjectCardComponent extends Card {
     return this.addLeftZero(newDate.getUTCDate()) + '/' + this.addLeftZero(newDate.getUTCMonth() + 1) + '/' + newDate.getUTCFullYear();
   }
 
-  async deleteCard() {
+  deleteCard() {
     this.setLoading.emit(true);
-    await this.contentLoader.deleteProject(this.card).then(()=>this.setLoading.emit(false));
+    this.contentLoader.deleteCard(this.card.id, this.card.type);
+    this.setLoading.emit(false);
   }
 
 }

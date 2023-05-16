@@ -3,6 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 import { AlertsService } from './alerts.service';
+import { Account } from '../interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class AccountSettingsService {
 
   private loged:boolean = false;
   private subject = new Subject<any>();
-  private adaminSettingsUrl:string = 'http://localhost:5000/adminSettings';
+  private adaminSettingsUrl:string = 'http://localhost:8080/account/tryToLog';
 
   constructor(
     private http:HttpClient,
@@ -24,13 +25,20 @@ export class AccountSettingsService {
     this.subject.next(this.loged);
   }
 
-  async verifyData(data:{name:string,pass:string}):Promise<boolean> {
+  async verifyData(data:Account):Promise<boolean> {
     let value = new Promise((resolve) => {
-        this.getAdminSettings().subscribe(settings=>{
-          settings.accounts.forEach(account => {
-            if (account.name === data.name && account.pass === data.pass) resolve(true);
-          });
-          resolve(false);
+        this.getAdminSettings(data).subscribe(res=>{
+          if (res !== null) {
+            sessionStorage.setItem('Authorization', res.token);
+
+            console.log(res);
+
+            setTimeout(() => {
+              sessionStorage.removeItem('Authorisation');
+              this.Loged = false;
+            }, res.exp);
+            resolve(true);
+          } else resolve(false);
         });
       }
     )
@@ -40,8 +48,8 @@ export class AccountSettingsService {
     return verified;
   }
 
-  getAdminSettings():Observable<{accounts:{name:string,pass:string}[]}> {
-    return this.http.get<{accounts:{name:string,pass:string}[]}>(this.adaminSettingsUrl);
+  getAdminSettings(acc:Account):Observable<{token:string, exp:number}|null> {
+    return this.http.post<{token:string, exp:number}|null>(this.adaminSettingsUrl, acc);
   }
 
   onChange():Observable<any>{

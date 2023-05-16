@@ -16,14 +16,14 @@ export class HardSkillsComponent extends Section implements OnInit {
 
   constructor (
     private accountService: AccountSettingsService,
-    private contentLoader: ContentLoaderService,
+    override contentLoader: ContentLoaderService,
     private modalService: NgbModal
   ) {
     super();
     this.dataBaseItemModify = async (item:any, updateFront:boolean) => {
       return await new Promise(resolve => {
-        this.contentLoader.setHardSkill(item as HardSkill, updateFront)
-          .then(value => resolve(value));
+        // this.contentLoader.setHardSkill(item as HardSkill, updateFront)
+        //   .then(value => resolve(value));
       })
     }
     this.addCard = () => this.modalService.open(HardSkillEditorComponent, this.globalModalConfig);
@@ -32,7 +32,7 @@ export class HardSkillsComponent extends Section implements OnInit {
   }
 
   ngOnInit():void {
-    this.contentLoader.getDbHardSkill();
+    // this.contentLoader.getDbHardSkill();
   }
 
 }

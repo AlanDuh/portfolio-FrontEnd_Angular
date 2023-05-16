@@ -24,6 +24,7 @@
     >
     <form
         style="font-size: .75em;"
+        [formGroup]="form"
         >
         <div
             class="mb-3"
@@ -36,8 +37,8 @@
             </label>
             <input
                 name="concept"
-                [(ngModel)]="concept"
-                [ngClass]="{'is-valid':concept,'is-invalid':!concept}"
+                formControlName="name"
+                [ngClass]="{'is-valid':!Name?.errors,'is-invalid':Name?.errors}"
                 class="form-control form-control-sm bg-opacity-25"
                 type="text" id="ExpEduc-concept"
             >
@@ -54,8 +55,9 @@
             </label>
             <div
                 class="input-group input-group-sm"
+                formGroupName="institutionImage"
                 >
-                <div
+                <!-- <div
                     class="input-group-text position-relative"
                     >
                     <label
@@ -71,10 +73,11 @@
                         id="ExpEduc-institutionImg-file"
                         accept="image/png, image/jpeg"
                         >
-                </div>
+                </div> -->
                 <input
                     name="institutionImageSrc"
-                    [(ngModel)]="institutionImageSrc"
+                    formControlName="name"
+                    [ngClass]="{'is-valid':!InstitutionImage?.errors,'is-invalid':InstitutionImage?.errors}"
                     class="form-control form-control-sm"
                     type="text"
                     aria-label="insertar enlace de un archivo .png o .jpg"
@@ -94,8 +97,8 @@
             </label>
             <input
                 name="title"
-                [(ngModel)]="title"
-                [ngClass]="{'is-valid':title,'is-invalid':!title}"
+                formControlName="title"
+                [ngClass]="{'is-valid':!Title?.errors,'is-invalid':Title?.errors}"
                 class="form-control form-control-sm bg-opacity-25"
                 type="text"
                 id="ExpEduc-title"
@@ -112,8 +115,8 @@
             </label>
             <input
                 name="institution"
-                [(ngModel)]="institution"
-                [ngClass]="{'is-valid':institution,'is-invalid':!institution}"
+                formControlName="institution"
+                [ngClass]="{'is-valid':!Institution?.errors,'is-invalid':Institution?.errors}"
                 class="form-control form-control-sm bg-opacity-25"
                 type="text" id="ExpEduc-institution"
             >
@@ -140,8 +143,9 @@
                 </label>
                 <select
                     name="date.type"
-                    [(ngModel)]="date.type"
-                    [ngClass]="{'is-valid':date.type,'is-invalid':!date.type}"
+                    [(ngModel)]="dateType"
+                    [ngModelOptions]="{standalone: true}"
+                    [ngClass]="{'is-valid':dateType,'is-invalid':!dateType}"
                     class="form-select form-select-sm bg-opacity-25"
                     id="ExpEduc-state"
                     aria-label="estado de cursada o situación laboral"
@@ -174,9 +178,8 @@
                 </label>
                 <input
                     name="date.start"
-                    [(ngModel)]="date.start"
-                    [ngClass]="{'text-muted':date.type === 'completion only','is-valid':date.start && date.type !== 'completion only','is-invalid':!date.start && date.type !== 'completion only'}"
-                    [disabled]="date.type === 'completion only'"
+                    formControlName="date1"
+                    [disabled]="dateType === 'completion only'"
                     class="form-control form-control-sm bg-opacity-25"
                     type="date"
                     id="ExpEduc-start-date"
@@ -193,9 +196,8 @@
                 </label>
                 <input
                     name="date.end"
-                    [(ngModel)]="date.end"
-                    [ngClass]="{'text-muted':date.type === 'in progress','is-valid':date.end && date.type !== 'in progress','is-invalid':!date.end && date.type !== 'in progress'}"
-                    [disabled]="date.type === 'in progress'"
+                    formControlName="date2"
+                    [disabled]="dateType === 'in progress'"
                     class="form-control form-control-sm bg-opacity-25"
                     type="date"
                     id="ExpEduc-finish-date"
@@ -213,7 +215,8 @@
             </label>
             <textarea
                 name="general"
-                [(ngModel)]="general"
+                formControlName="description"
+                [ngClass]="{'is-valid':!Description?.errors,'is-invalid':Description?.errors}"
                 class="form-control form-control-sm"
                 type="text" id="ExpEduc-general"
             ></textarea>

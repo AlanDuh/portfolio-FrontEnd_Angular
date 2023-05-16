@@ -32,16 +32,16 @@ export class AboutComponent implements OnInit {
   ) {
     this.contentSubscription = contentLoader.onOwnerInfoChange().subscribe(ownerInfo=>{
       this.bannerImages = [];
-      ownerInfo.banner.forEach(img=>this.bannerImages.push(img));
+      ownerInfo.images.forEach(img=>this.bannerImages.push(img));
       this.photo = ownerInfo.photo;
-      this.title = ownerInfo.title;
+      this.title = ownerInfo.name;
       this.description = ownerInfo.description;
     });
     this.accountSubscription = accountSettings.onChange().subscribe(value=>this.loged=value);
   }
 
   ngOnInit(): void {
-    this.contentLoader.getDbOwnerInfo();
+    // this.contentLoader.getDbOwnerInfo();
   }
 
   // Modal display

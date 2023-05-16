@@ -14,17 +14,20 @@ import { Card } from 'src/app/general_classes/card';
 export class EducExpCardComponent extends Card implements OnInit {
 
   override card:EducExp = {
-    id:0,
-    concept:'',
-    institutionImage:null,
-    title:'',
-    institution:'',
-    date:{
-        type:'',
-        start:'',
-        end:''
+    id: 0,
+    name: '',
+    idx: -1,
+    type: '',
+    title: '',
+    institution: '',
+    institutionImage: {
+      id: 0,
+      name: '',
+      path: ''
     },
-    general:null
+    date1: null,
+    date2: null,
+    description: ''
   };
   bgImage:string = '/';
 
@@ -42,18 +45,15 @@ export class EducExpCardComponent extends Card implements OnInit {
   }
 
   ngOnInit():void {
-    switch (this.type) {
-      case 'experiences':
+    switch (this.card.type) {
+      case 'Experience':
         this.bgImage = '../../../../../assets/imgs/computadora.png';
         break;
-      case 'education':
-        switch (this.card.date.type) {
-          case 'in progress':
-            this.bgImage = '../../../../../assets/imgs/papel.png';
-            break;
-          default:
-            this.bgImage = '../../../../../assets/imgs/diploma.png';
-            break;
+      case 'Education':
+        if (this.card.date2 === null) {
+          this.bgImage = '../../../../../assets/imgs/papel.png';
+        } else {
+          this.bgImage = '../../../../../assets/imgs/diploma.png';
         }
         break;
       default:
@@ -71,16 +71,15 @@ export class EducExpCardComponent extends Card implements OnInit {
     return this.addLeftZero(newDate.getUTCDate()) + '/' + this.addLeftZero(newDate.getUTCMonth() + 1) + '/' + newDate.getUTCFullYear();
   }
 
-  async deleteCard() {
+  deleteCard() {
     this.setLoading.emit(true);
-    await this.contentLoader.deleteEducExp(this.card.id, this.type).then();
+    this.contentLoader.deleteCard(this.card.id, this.card.type);
     this.setLoading.emit(false);
   }
 
   override editCard():void {
     let openModal:NgbModalRef = this.modalService.open(EducExpEditorComponent, this.globalModalConfig);
-    openModal.componentInstance.idx = this.index;
-    openModal.componentInstance.type = this.type;
+    openModal.componentInstance.card = this.card;
   }
 
 }

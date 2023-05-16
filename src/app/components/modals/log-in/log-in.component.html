@@ -4,14 +4,14 @@
     <button type="button" class="btn-close m-0" id="LogIn-cancel" (click)="closeModal()" [ngClass]="{'disabled':checking}" aria-label="Close"></button>
 </div>
 <div class="modal-body">
-    <form>
+    <form [formGroup]="form">
         <div class="mb-3">
             <label class="form-label" for="logIn-name">Nombre de usuario:</label>
-            <input class="form-control" name="name" type="text" id="logIn-name" [(ngModel)]="nameInput">
+            <input class="form-control" formControlName="username" name="name" type="text" id="logIn-name" [(ngModel)]="nameInput">
         </div>
         <div class="mb-1">
             <label class="form-label" for="logIn-password">Contraseña:</label>
-            <input class="form-control" name="password" type="password" id="logIn-password" [(ngModel)]="passInput">
+            <input class="form-control" formControlName="password" name="password" type="password" id="logIn-password" [(ngModel)]="passInput">
         </div>
     </form>
 </div>

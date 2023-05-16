@@ -4,8 +4,10 @@ import {
     EducExp,
     HardSkill,
     SoftSkill,
-    Projects
+    Projects,
+    MoveObject
 } from '../interfaces';
+import { ContentLoaderService } from '../services/content-loader.service';
 
 @Directive()
 export class Section {
@@ -18,6 +20,7 @@ export class Section {
         updateFront: boolean
     )=>Promise<string> = async () => new Promise(res => res('void'));
     protected addCard: ()=>void = () => {} // Call the corresponding editor modal 
+    protected contentLoader?: ContentLoaderService;
 
     // ------------------------------------------------------ //
 
@@ -56,15 +59,27 @@ export class Section {
             Projects
         )[]
     ):Promise<boolean> {
-        let cardUpdatingIdx:number = 0;
-        while (cardUpdatingIdx !== cardsToUpdate.length) {
-            await this.dataBaseItemModify(
-                cardsToUpdate[cardUpdatingIdx],
-                (cardUpdatingIdx === (cardsToUpdate.length - 1))?true:false
-            ).then(()=>{
-                cardUpdatingIdx++;
-            })
+        // let cardUpdatingIdx:number = 0;
+        // while (cardUpdatingIdx !== cardsToUpdate.length) {
+        //     await this.dataBaseItemModify(
+        //         cardsToUpdate[cardUpdatingIdx],
+        //         (cardUpdatingIdx === (cardsToUpdate.length - 1))?true:false
+        //     ).then(()=>{
+        //         cardUpdatingIdx++;
+        //     })
+        // }
+
+        let movements:MoveObject[] = [];
+        for (let card of cardsToUpdate) {
+            movements.push(
+                {
+                    cardId: card.id,
+                    newPosition: card.idx
+                }
+            )
         }
+        this.contentLoader?.moveCard(movements);
+
         return new Promise(resolve => resolve(true));
     }
   
@@ -76,27 +91,49 @@ export class Section {
         this.setLoading.emit(true);
         let targetCard: EducExp | HardSkill | SoftSkill | Projects | undefined = undefined;
         let targetCardIdx: number;
-        let movingCardIdx: number = this.content.indexOf(movingCard);
+        const movingCardIdx: number = movingCard.idx;
         if (typeof(target) === 'string') {
             targetCardIdx = movingCardIdx + ((target === 'forward')?-1:1);
             targetCard = this.content[targetCardIdx];
         } else {
-            targetCardIdx = this.content.indexOf(target);
+            targetCardIdx = target.idx;
             targetCard = target;
         }
         if (targetCard) {
-            const movingCardId: number = movingCard.id;
-            const targetCardId: number = targetCard.id;
-            movingCard.id = targetCardId;
-            targetCard.id = movingCardId;
-            const savedTargetCard: EducExp | HardSkill | SoftSkill | Projects = targetCard;
-            this.content[targetCardIdx] = movingCard;
-            this.content[movingCardIdx] = savedTargetCard;
+            movingCard.idx = targetCardIdx;
+            targetCard.idx = movingCardIdx;
+            this.content.sort(function(a,b) {return a.idx - b.idx});
             if (updateDb) {
                 await this.updateDb([this.content[targetCardIdx] as any, this.content[movingCardIdx]]);
             }
         } else console.log('No existe a donde quieras mover esta carta');
         if (!this.dragging) this.setLoading.emit(false);
+
+        // this.setLoading.emit(true);
+        // let targetCard: EducExp | HardSkill | SoftSkill | Projects | undefined = undefined;
+        // let targetCardIdx: number;
+        // let movingCardIdx: number = this.content.indexOf(movingCard);
+        // if (typeof(target) === 'string') {
+        //     targetCardIdx = movingCardIdx + ((target === 'forward')?-1:1);
+        //     targetCard = this.content[targetCardIdx];
+        // } else {
+        //     targetCardIdx = this.content.indexOf(target);
+        //     targetCard = target;
+        // }
+        // if (targetCard) {
+        //     const movingCardId: number = movingCard.id;
+        //     const targetCardId: number = targetCard.id;
+        //     movingCard.id = targetCardId;
+        //     targetCard.id = movingCardId;
+        //     const savedTargetCard: EducExp | HardSkill | SoftSkill | Projects = targetCard;
+        //     this.content[targetCardIdx] = movingCard;
+        //     this.content[movingCardIdx] = savedTargetCard;
+        //     if (updateDb) {
+        //         await this.updateDb([this.content[targetCardIdx] as any, this.content[movingCardIdx]]);
+        //     }
+        // } else console.log('No existe a donde quieras mover esta carta');
+        // if (!this.dragging) this.setLoading.emit(false);
+
     }
   
     onDragStart(cardDragging: EducExp | HardSkill | SoftSkill | Projects ) {

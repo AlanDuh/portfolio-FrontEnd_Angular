@@ -15,16 +15,12 @@ import { Card } from 'src/app/general_classes/card';
 export class SoftSkillCardComponent extends Card implements OnInit {
 
   override card:SoftSkill = {
-    id:0,
-    name:'',
-    description:'',
-    subSkills:[
-      {
-        id:0,
-        name:'',
-        value:0
-      }
-    ]
+    id: 0,
+    name: '',
+    idx: -1,
+    type: '',
+    description: '',
+    subSkills: []
   };
   
   skillValue:number = 0;
@@ -43,14 +39,15 @@ export class SoftSkillCardComponent extends Card implements OnInit {
     this.refreshSkillValue()
   }
 
-  async deleteCard() {
+  deleteCard() {
     this.setLoading.emit(true);
-    await this.contentLoader.deleteSoftSkill(this.card).then(()=>this.setLoading.emit(false));
+    this.contentLoader.deleteCard(this.card.id, this.card.type);
+    this.setLoading.emit(false);
   }
 
   refreshSkillValue(): void {
     let total:number = 0;
-    this.card.subSkills.forEach(subSkill => total += subSkill.value);
+    this.card.subSkills.forEach(subSkill => total += subSkill.val);
     this.skillValue = Math.trunc(total / this.card.subSkills.length);
   }
 

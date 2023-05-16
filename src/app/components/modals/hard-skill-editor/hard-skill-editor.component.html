@@ -17,7 +17,7 @@
         type="button"
         class="btn-close m-0"
         aria-label="Close"
-        (click)="cancelEditing()"
+        (click)="closeModal()"
         [ngClass]="{'disabled':loading}"
         >
     </button>
@@ -27,6 +27,7 @@
     >
     <form
         style="font-size: .75em;"
+        [formGroup]="form"
         >
         <div
             class="mb-3 row g-2"
@@ -44,10 +45,10 @@
                     class="form-control form-control-sm"
                     type="text"
                     name="card.name"
-                    [(ngModel)]="card.name"
+                    formControlName="name"
                     [ngClass]="{
-                        'is-valid':card.name,
-                        'is-invalid':!card.name
+                        'is-valid':!Name?.errors,
+                        'is-invalid':Name?.errors
                     }"
                 >
             </div>
@@ -69,7 +70,7 @@
                         style="width: 4em;"
                         id="HSkill-value-overview"
                         >
-                        {{card.value}}%
+                        {{Val?.value}}%
                     </span>
                     <div
                         class="d-flex align-items-center px-2 input-group-item border rounded-end"
@@ -81,7 +82,11 @@
                             min="0"
                             max="100"
                             name="card.value"
-                            [(ngModel)]="card.value"
+                            formControlName="val"
+                            [ngClass]="{
+                                'is-valid':!Val?.errors,
+                                'is-invalid':Val?.errors
+                            }"
                             id="HSkill-percent"
                         >
                     </div>
@@ -100,8 +105,9 @@
             >
             <div
                 class="input-group input-group-sm d-none d-sm-flex"
+                formGroupName="background"
                 >
-                <div
+                <!-- <div
                     class="input-group-text p-0 overflow-hidden"
                     >
                     <select
@@ -146,17 +152,21 @@
                         type="file"
                         accept="image/png, image/jpeg"
                     >
-                </div>
+                </div> -->
                 <input
                     class="form-control form-control-sm HSkill-bg-link"
                     type="text"
                     aria-label="insertar enlace de un archivo .png o .jpg"
                     placeholder="Enlace de una imagen (.png o .jpg)"
                     name="card.background"
-                    [(ngModel)]="backgroundSrc"
+                    formControlName="name"
+                    [ngClass]="{
+                        'is-valid':!Background?.errors,
+                        'is-invalid':Background?.errors
+                    }"
                 >
             </div>
-            <div
+            <!-- <div
                 class="col col-12 mb-1 d-sm-none"
                 >
                 <select
@@ -184,11 +194,12 @@
                         Canvas - animation
                     </option>
                 </select>
-            </div>
+            </div> -->
             <div
                 class="input-group input-group-sm d-sm-none col col-12 d-sm-none"
+                formGroupName="background"
                 >
-                <div
+                <!-- <div
                     class="input-group-text position-relative"
                     >
                     <label
@@ -203,14 +214,18 @@
                         type="file"
                         accept="image/png, image/jpeg"
                     >
-                </div>
+                </div> -->
                 <input
                     class="form-control form-control-sm HSkill-bg-link"
                     type="text"
                     aria-label="insertar enlace de un archivo .png o .jpg"
                     placeholder="Enlace de una imagen (.png o .jpg)"
                     name="card.background"
-                    [(ngModel)]="backgroundSrc"
+                    formControlName="name"
+                    [ngClass]="{
+                        'is-valid':!Background?.errors,
+                        'is-invalid':Background?.errors
+                    }"
                 >
             </div>
         </div>
@@ -227,18 +242,19 @@
             <div
                 >
                 <div
-                    *ngFor="let point of card.points.positives"
+                    *ngFor="let point of positivePoints"
                     class="input-group input-group-sm mb-1"
                     >
                     <input
                         class="form-control form-control-sm point-name"
                         type="text"
                         aria-label="type a positive point"
-                        [name]="'card.points.positives[' + point.id + ']'"
-                        [(ngModel)]="card.points.positives[point.id].content"
+                        [name]="'card.points.positives[' + point + ']'"
+                        [(ngModel)]="point.description"
+                        [ngModelOptions]="{standalone: true}"
                         [ngClass]="{
-                            'is-valid':card.points.positives[point.id].content,
-                            'is-invalid':!card.points.positives[point.id].content
+                            'is-valid':point.description,
+                            'is-invalid':!point.description
                         }"
                     >
                     <div
@@ -248,8 +264,8 @@
                             (click)="deletePositivePoint(point)"
                             class="btn p-0 y-button"
                             [ngClass]="{
-                                'disabled':card.points.positives.length === 1,
-                                'text-muted':card.points.positives.length === 1
+                                'disabled':positivePoints.length === 1,
+                                'text-muted':positivePoints.length === 1
                             }"
                             >
                             <i
@@ -287,18 +303,19 @@
             <div
                 >
                 <div
-                    *ngFor="let point of card.points.negatives"
+                    *ngFor="let point of negativePoints"
                     class="input-group input-group-sm mb-1"
                     >
                     <input
                         class="form-control form-control-sm point-name"
                         type="text"
                         aria-label="type a negative point"
-                        [name]="'card.points.negatives[' + point.id + ']'"
-                        [(ngModel)]="card.points.negatives[point.id].content"
+                        [name]="'card.points.negatives[' + point + ']'"
+                        [(ngModel)]="point.description"
+                        [ngModelOptions]="{standalone: true}"
                         [ngClass]="{
-                            'is-valid':card.points.negatives[point.id].content,
-                            'is-invalid':!card.points.negatives[point.id].content
+                            'is-valid':point.description,
+                            'is-invalid':!point.description
                         }"
                     >
                     <div
@@ -308,8 +325,8 @@
                             (click)="deleteNegativePoint(point)"
                             class="btn p-0 y-button"
                             [ngClass]="{
-                                'disabled':card.points.negatives.length === 1,
-                                'text-muted':card.points.negatives.length === 1
+                                'disabled':negativePoints.length === 1,
+                                'text-muted':negativePoints.length === 1
                             }"
                             >
                             <i
@@ -342,7 +359,7 @@
     <button
         type="button"
         class="btn btn-secondary"
-        (click)="cancelEditing()"
+        (click)="closeModal()"
         [ngClass]="{'opacity-0':loading,'disabled':loading}"
         >
         Cancelar

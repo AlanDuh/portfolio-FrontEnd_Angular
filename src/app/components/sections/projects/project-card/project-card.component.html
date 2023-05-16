@@ -75,7 +75,7 @@
                 *ngIf="card.images.length === 1"
                 class="w-100 h-100 object-fit-cover"
                 [alt]="card.name + 'project - image ' + card.images[0].id"
-                [src]="card.images[0].src"
+                [src]="card.images[0].path + card.images[0].name"
             >
             <div
                 *ngIf="card.images.length > 1"
@@ -108,7 +108,7 @@
                         <img
                             class="d-block w-100 h-100 object-fit-cover"
                             [alt]="card.name + 'project - image ' + img.id"
-                            [src]="img.src"
+                            [src]="img.path + img.name"
                         >
                     </div>
                 </div>
@@ -191,14 +191,14 @@
                 >
                 <a
                     class="btn btn-primary mb-3 mt-0"
-                    [href]="card.links.page"
+                    [href]="card.pageLink"
                     >
                     Ir a la página
                 </a>
                 <a
                     class="btn btn-outline-dark m-3 mt-0"
                     title="GitHub"
-                    [href]="card.links.gitHub"
+                    [href]="card.gitHubLink"
                     >
                     <i
                         class="fa-brands fa-github"

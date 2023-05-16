@@ -16,14 +16,14 @@ export class SoftSkillsComponent extends Section implements OnInit {
 
   constructor (
     protected accountService: AccountSettingsService,
-    protected contentLoader: ContentLoaderService,
+    override contentLoader: ContentLoaderService,
     protected modalService: NgbModal
   ) {
     super();
     this.dataBaseItemModify = async (item:any, updateFront:boolean) => {
       return await new Promise(resolve => {
-        this.contentLoader.setSoftSkill(item as SoftSkill, updateFront)
-          .then(value => resolve(value));
+        // this.contentLoader.setSoftSkill(item as SoftSkill, updateFront)
+        //   .then(value => resolve(value));
       })
     }
     this.addCard = () => this.modalService.open(SoftSkillEditorComponent, this.globalModalConfig);
@@ -32,7 +32,7 @@ export class SoftSkillsComponent extends Section implements OnInit {
   }
 
   ngOnInit(): void {
-    this.contentLoader.getDbSoftSkill();
+    // this.contentLoader.getDbSoftSkill();
   }
 
 }

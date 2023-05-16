@@ -22,7 +22,7 @@
             >
             <img
                 class="h-100 w-100 opacity-50 object-fit-cover"
-                [src]="card.background.src"
+                [src]="card.background.path + card.background.name"
                 [alt]="card.name + ' - Hard Skill Background'"
             >
         </div>
@@ -31,8 +31,8 @@
             role="progressbar"
             aria-label="positive"
             style="z-index: 1;"
-            [style.width]="card.value + '%'"
-            [attr.aria-valuenow]="card.value"
+            [style.width]="card.val + '%'"
+            [attr.aria-valuenow]="card.val"
             aria-valuemin="0"
             aria-valuemax="100"
             >
@@ -42,8 +42,8 @@
             role="progressbar"
             aria-label="negative"
             style="z-index: 1;"
-            [style.width]="(100 - card.value) + '%'"
-            [attr.aria-valuenow]="100 - card.value"
+            [style.width]="(100 - card.val) + '%'"
+            [attr.aria-valuenow]="100 - card.val"
             aria-valuemin="0"
             aria-valuemax="100"
             >
@@ -63,12 +63,12 @@
                     class="m-0"
                     style="color: #fff;"
                     >
-                    <span *ngFor="let item of card.points.positives">
+                    <span *ngFor="let item of getPositives()">
                         <i
                             class="fa-solid fa-check text-success"
                             >
                         </i>
-                         {{item.content}}
+                         {{item.description}}
                         <br>
                     </span>
                 </p>
@@ -80,8 +80,8 @@
                     class="m-0 mt-3 mt-md-0"
                     style="color: #fff;"
                     >
-                    <span *ngFor="let item of card.points.negatives">
-                        {{item.content}} 
+                    <span *ngFor="let item of getNegatives()">
+                        {{item.description}} 
                         <i
                             class="fa-solid fa-xmark text-danger"
                             >

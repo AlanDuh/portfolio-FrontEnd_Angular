@@ -18,15 +18,15 @@ export class EducationExperiencesComponent extends Section implements OnInit {
   sectionTitle:string = '';
 
   constructor(
-    private contentLoader: ContentLoaderService,
+    override contentLoader: ContentLoaderService,
     private account: AccountSettingsService,
     private modalService: NgbModal
   ) {
     super()
     this.dataBaseItemModify = async (item:any, updateFront:boolean) => {
       return await new Promise(resolve => {
-        this.contentLoader.setEducExp(item as EducExp, this.type, updateFront)
-          .then(value => resolve(value));
+        // this.contentLoader.setEducExp(item as EducExp, this.type, updateFront)
+        //   .then(value => resolve(value));
       })
     }
     this.accountSubscription = this.account.onChange().subscribe(value => this.loged = value);
@@ -41,13 +41,13 @@ export class EducationExperiencesComponent extends Section implements OnInit {
     this.sectionTitle = this.type;
     this.sectionTitle = this.sectionTitle[0].toUpperCase() + this.sectionTitle.slice(1);
     switch (this.type) {
-      case 'education':
+      case 'Education':
         this.contentSubscription = this.contentLoader.onEducationChange().subscribe(items => this.content = items);
-        this.contentLoader.getDbEducation();
+        // this.contentLoader.getDbEducation();
         break;
-      case 'experiences':
+      case 'Experience':
         this.contentSubscription = this.contentLoader.onExperiencesChange().subscribe(items => this.content = items);
-        this.contentLoader.getDbExperiences();
+        // this.contentLoader.getDbExperiences();
         break;
       default:
         break;

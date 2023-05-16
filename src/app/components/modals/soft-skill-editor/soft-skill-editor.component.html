@@ -16,7 +16,7 @@
         type="button"
         class="btn-close m-0"
         aria-label="Close"
-        (click)="cancelEditing()"
+        (click)="closeModal()"
         [ngClass]="{'disabled':loading}"
         >
     </button>
@@ -25,6 +25,7 @@
     class="modal-body text-muted">
     <form
         style="font-size: .75em;"
+        [formGroup]="form"
         >
         <label
             for="SSkill-name"
@@ -37,10 +38,10 @@
             type="text"
             id="SSkill-name"
             name="card.name"
-            [(ngModel)]="card.name"
+            formControlName="name"
             [ngClass]="{
-                'is-valid':card.name,
-                'is-invalid':!card.name
+                'is-valid':!Name?.errors,
+                'is-invalid':Name?.errors
             }"
             [disabled]="loading"
         >
@@ -55,7 +56,7 @@
             id="SSkill-sub-skills"
             >
             <div
-                *ngFor="let subSkill of card.subSkills"
+                *ngFor="let subSkill of sSkills"
                 class="m-2 row g-2 rounded bg-light shadow-sm"
                 [id]="'sub-skill-' + subSkill.id"
                 style="font-size: .74em;"
@@ -73,10 +74,11 @@
                         type="text"
                         [id]="'sub-skill-name-' + subSkill.id"
                         [name]="'sub-skill-name-' + subSkill.id"
-                        [(ngModel)]="card.subSkills[subSkill.id].name"
+                        [(ngModel)]="subSkill.name"
+                        [ngModelOptions]="{standalone: true}"
                         [ngClass]="{
-                            'is-valid':card.subSkills[subSkill.id].name,
-                            'is-invalid':!card.subSkills[subSkill.id].name
+                            'is-valid':subSkill.name,
+                            'is-invalid':!subSkill.name
                         }"
                         [disabled]="loading"
                     >
@@ -98,7 +100,7 @@
                             class="input-group-text p-0 px-2"
                             style="width: 4em;"
                         >
-                        {{card.subSkills[subSkill.id].value}}%
+                        {{subSkill.val}}%
                         </span>
                         <div
                             class="d-flex align-items-center p-0 px-2 input-group-item border bg-white"
@@ -111,7 +113,8 @@
                                 max="100"
                                 [id]="'sub-skill-percent-' + subSkill.id"
                                 [name]="'sub-skill-percent-' + subSkill.id"
-                                [(ngModel)]="card.subSkills[subSkill.id].value"
+                                [(ngModel)]="subSkill.val"
+                                [ngModelOptions]="{standalone: true}"
                                 [disabled]="loading"
                             >
                         </div>
@@ -119,7 +122,7 @@
                             class="btn border p-0 px-2 bg-white text-danger"
                             type="button"
                             (click)="deleteSubSkill(subSkill)"
-                            [ngClass]="{'disabled': card.subSkills.length === 1}"
+                            [ngClass]="{'disabled': sSkills.length === 1}"
                             [disabled]="loading"
                             >
                             <i
@@ -158,10 +161,10 @@
                 class="form-control form-control-sm"
                 type="text"
                 name="card.description"
-                [(ngModel)]="card.description"
+                formControlName="description"
                 [ngClass]="{
-                    'is-valid':card.description,
-                    'is-invalid':!card.description
+                    'is-valid':!Description?.errors,
+                    'is-invalid':Description?.errors
                 }"
                 [disabled]="loading"
                 >
@@ -175,7 +178,7 @@
     <button
         type="button"
         class="btn btn-secondary"
-        (click)="cancelEditing()"
+        (click)="closeModal()"
         [ngClass]="{'opacity-0':loading,'disabled':loading}"
         >
         Cancelar

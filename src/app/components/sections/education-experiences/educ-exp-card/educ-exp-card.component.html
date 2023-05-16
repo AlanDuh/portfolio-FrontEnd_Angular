@@ -40,11 +40,11 @@
             ><div
                 style="width: 80px; height: 40px;"
                 *ngIf="card.institutionImage"
-                ><img class="h-100 w-100 object-fit-contain" [src]="card.institutionImage.src">
+                ><img class="h-100 w-100 object-fit-contain" [src]="card.institutionImage.path + card.institutionImage.name">
             </div>
             <h3
             class="card-title d-inline-block m-0 text-end">
-                {{card.concept}}
+                {{card.name}}
             </h3>
         </div>
         <hr class="px-2 my-2">
@@ -56,12 +56,12 @@
         </p>
         <hr class="px-2 my-2">
         <p class="py-2 m-0 card-text lh-sm">
-            <span *ngIf="card.date.type === 'finished'">Período: <span class="text-muted">{{generateDate(card.date.start)}} - {{generateDate(card.date.end)}}</span></span>
-            <span *ngIf="card.date.type === 'in progress'">Período: <span class="text-muted">{{generateDate(card.date.start)}} - No Finalizado (en curso)</span></span>
-            <span *ngIf="card.date.type === 'completion only'">Fecha de finalización: <span class="text-muted">{{generateDate(card.date.end)}}</span></span>
+            <span *ngIf="card.date1 !== null && card.date2 !== null">Período: <span class="text-muted">{{generateDate(card.date1)}} - {{generateDate(card.date2)}}</span></span>
+            <span *ngIf="card.date1 !== null && card.date2 === null">Período: <span class="text-muted">{{generateDate(card.date1)}} - No Finalizado (en curso)</span></span>
+            <span *ngIf="card.date1 === null && card.date2 !== null">Fecha de finalización: <span class="text-muted">{{generateDate(card.date2)}}</span></span>
         </p>
-        <p *ngIf="card.general" class="py-2 m-0 card-text lh-sm text-muted">
-            {{card.general}}
+        <p *ngIf="card.description" class="py-2 m-0 card-text lh-sm text-muted">
+            {{card.description}}
         </p>
     </div>
 </div>

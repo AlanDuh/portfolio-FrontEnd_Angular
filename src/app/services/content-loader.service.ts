@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
-import { OwnerInfo, EducExp, SoftSkill, HardSkill, Projects, DataBase } from '../interfaces';
+import { OwnerInfo, EducExp, SoftSkill, HardSkill, Projects, MoveObject, CardDeleted } from '../interfaces';
+import { AlertsService } from './alerts.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class ContentLoaderService {
   hardSkills:HardSkill[] = [];
   projects:Projects[] = [];
 
-  private dbUrl:string = 'http://localhost:5000/';
+  private dbUrl:string = 'http://localhost:8080/';
   private ownerInfoSubject = new Subject<OwnerInfo>();
   private educationSubject = new Subject<EducExp[]>();
   private experiencesSubject = new Subject<EducExp[]>();
@@ -25,7 +26,8 @@ export class ContentLoaderService {
   private projectsSubject = new Subject<Projects[]>();
 
   constructor(
-    private http:HttpClient
+    private http:HttpClient,
+    private alerts:AlertsService
   ) { }
 
   onOwnerInfoChange():Observable<OwnerInfo> {
@@ -60,225 +62,189 @@ export class ContentLoaderService {
     return this.projectsSubject.asObservable();
   }
 
-  getDbOwnerInfo():void {
-    this.http.get<OwnerInfo>(this.dbUrl+'ownerInfo').subscribe(items=>{
-      this.ownerInfo=items;
+  getAllCards():void {
+    this.http.get<(OwnerInfo|EducExp|HardSkill|SoftSkill|Projects)[]>(this.dbUrl+'cards/traer').subscribe(cards=>{
+      console.log(cards);
+      this.ownerInfo = cards.find(card => card.type === 'OwnerInfo') as OwnerInfo;
       this.ownerInfoSubject.next(this.ownerInfo);
-    })
-  }
-
-  getDbEducation():void {
-    this.http.get<EducExp[]>(this.dbUrl+'education').subscribe(items=>{
-      this.education=items;
+      this.education = cards.filter(card => card.type === 'Education') as EducExp[];
+      this.education.sort(function(a,b) {return a.idx - b.idx});
       this.educationSubject.next(this.education);
-    });
-  }
-
-  getDbExperiences():void {
-    this.http.get<EducExp[]>(this.dbUrl+'experiences').subscribe(items=>{
-      this.experiences=items;
+      this.experiences = cards.filter(card => card.type === 'Experience') as EducExp[];
+      this.experiences.sort(function(a,b) {return a.idx - b.idx});
       this.experiencesSubject.next(this.experiences);
-    });
-  }
-
-  getDbHardSkill():void {
-    this.http.get<HardSkill[]>(this.dbUrl+'hardSkills').subscribe(items=>{
-      this.hardSkills=items;
+      this.hardSkills = cards.filter(card => card.type === 'HardSkill') as HardSkill[];
+      this.hardSkills.sort(function(a,b) {return a.idx - b.idx});
       this.hardSkillsSubject.next(this.hardSkills);
-    });
-  }
-
-  getDbSoftSkill():void {
-    this.http.get<SoftSkill[]>(this.dbUrl+'softSkills').subscribe(items=>{
-      this.softSkills=items;
+      this.softSkills = cards.filter(card => card.type === 'SoftSkill') as SoftSkill[];
+      this.softSkills.sort(function(a,b) {return a.idx - b.idx});
       this.softSkillsSubject.next(this.softSkills);
-    });
-  }
-
-  getDbProjects():void {
-    this.http.get<Projects[]>(this.dbUrl+'projects').subscribe(items=>{
-      this.projects=items;
+      this.projects = cards.filter(card => card.type === 'Project') as Projects[];
+      this.projects.sort(function(a,b) {return a.idx - b.idx});
       this.projectsSubject.next(this.projects);
-    });
-  }
-
-  getHighestIdFrom(target:(EducExp|HardSkill|SoftSkill|Projects)[]):number {
-    if (target.length > 0) {
-      let allIds:number[] = [];
-      target.forEach(card => allIds.push(card.id));
-      return Math.max(...allIds);
-    } else return 0;
-  }
-
-  async setOwnerInfo(newOwnerInfo:OwnerInfo):Promise<boolean> {
-    return await new Promise(resolve => {
-      this.http.post<OwnerInfo>(this.dbUrl+'ownerInfo', newOwnerInfo).subscribe(()=>{
-        this.ownerInfo = newOwnerInfo;
-        this.ownerInfoSubject.next(this.ownerInfo);
-        resolve(true);
-      });
     })
   }
 
-  async updateDb(dbType:string, newContent:(EducExp|HardSkill|SoftSkill|Projects)[]):Promise<boolean> {
-    return await new Promise(resolve => {
-      this.http.delete<EducExp[]>(this.dbUrl + dbType).subscribe(()=>{
-        resolve(true);
-      });
-    });
-  }
-  
-  async deleteEducExp(id:number, type:string):Promise<boolean> {
-    let target:EducExp[] = [];
-    let targetSubject:Subject<EducExp[]>;
-    if (type === 'education') {
-      target = this.education;
-      targetSubject = this.educationSubject;
-    } else if (type === 'experiences') {
-      target = this.experiences;
-      targetSubject = this.experiencesSubject;
-    }
-    return await new Promise(resolve=>{
-      this.http.delete<EducExp>(this.dbUrl + type + '/' + id).subscribe(()=>{
-        target.splice(target.indexOf(target.find(card=>card.id === id) as EducExp),1);
-        targetSubject.next(target);
-        resolve(true);
-      })
-    })
-  }
+  updateData(newCard:OwnerInfo|EducExp|HardSkill|SoftSkill|Projects):boolean {
+    try {
 
-  async setEducExp(newEducExp:EducExp, type:string, updateFront:boolean):Promise<string> {
-    let target:EducExp[] = [];
-    let targetSubject:Subject<EducExp[]>;
-    if (type === 'education') {
-      target = this.education;
-      targetSubject = this.educationSubject;
-    }
-    else if (type === 'experiences') {
-      target = this.experiences;
-      targetSubject = this.experiencesSubject;
-    }
-    return await new Promise(resolve=>{
-      if (newEducExp.id !== 0) {
-        this.http.put<EducExp>(this.dbUrl + type + '/' + newEducExp.id, newEducExp).subscribe(()=>{
-          if (updateFront) {
-            if (type === 'education') this.getDbEducation();
-            else if (type === 'experiences') this.getDbExperiences();
-          }
-          resolve('Información actualizada correctamente');
-        });
-      } else {
-        this.http.post<EducExp>(this.dbUrl + type, newEducExp).subscribe(()=>{
-          if (updateFront) {
-            if (type === 'education') this.getDbEducation();
-            else if (type === 'experiences') this.getDbExperiences();
-          }
-          resolve('Tarjeta añadida correctamente');
-        });
+      let cardsContainer:OwnerInfo|(EducExp|HardSkill|SoftSkill|Projects)[];
+      let cardsSubject:Subject<any>;
+      let url:string;
+      switch (newCard.type) {
+
+        case 'OwnerInfo':
+          url = 'ownerInfo';
+          cardsContainer = this.ownerInfo as OwnerInfo;
+          cardsSubject = this.ownerInfoSubject;
+          break;
+        case 'Education':
+          url = 'educExp';
+          cardsContainer = this.education;
+          cardsSubject = this.educationSubject;
+          break;
+        case 'Experience':
+          url = 'educExp';
+          cardsContainer = this.experiences;
+          cardsSubject = this.experiencesSubject;
+          break;
+        case 'HardSkill':
+          url = 'hardSkill';
+          cardsContainer = this.hardSkills;
+          cardsSubject = this.hardSkillsSubject;
+          break;
+        case 'SoftSkill':
+          url = 'softSkill';
+          cardsContainer = this.softSkills;
+          cardsSubject = this.softSkillsSubject;
+          break;
+        case 'Project':
+          url = 'project';
+          cardsContainer = this.projects;
+          cardsSubject = this.projectsSubject;
+          break;
+        default:
+          console.error('ESTÁ INTENTANDO ENVIAR UNA TARJETA DE TIPO INADECUADO');
+          return false;
+
       }
-    });
-  }
+      
+      if (!(newCard.id > 0)) {
 
-  async setHardSkill(newHardSkill:HardSkill, updateFront:boolean):Promise<string> {
-    let cardToEdit:HardSkill|undefined = this.hardSkills.find(card => card.id === newHardSkill.id);
-    if (cardToEdit) {
-      return await new Promise(resolve => {
-        this.http.put<HardSkill>(this.dbUrl + 'hardSkills/' + newHardSkill.id, newHardSkill)
-        .subscribe(()=>{
-          cardToEdit = newHardSkill;
-          if (updateFront) this.hardSkillsSubject.next(this.hardSkills);
-          resolve('Información actualizada correctamente');
+        if (newCard.type !== 'OwnerInfo') newCard.idx = (cardsContainer as (EducExp|HardSkill|SoftSkill|Projects)[]).length;
+        this.http.post<OwnerInfo|EducExp|HardSkill|SoftSkill|Projects>(this.dbUrl+'cards/agregar/'+url, newCard).subscribe(card => {
+        
+          if (card.type === 'OwnerInfo') cardsContainer = card as OwnerInfo;
+          else (cardsContainer as (EducExp|HardSkill|SoftSkill|Projects)[]).push(card as EducExp|HardSkill|SoftSkill|Projects);
+          cardsSubject.next(cardsContainer);
+          this.alerts.addAlert({type:'success', message:'Tarjeta añadida correctamente'});
+
         })
-      });
-    } else {
-      newHardSkill.id = this.getHighestIdFrom(this.hardSkills) + 1;
-      return await new Promise(resolve => {
-        this.http.post<HardSkill>(this.dbUrl + 'hardSkills', newHardSkill)
-        .subscribe(()=>{
-          this.hardSkills.push(newHardSkill);
-          if (updateFront) this.hardSkillsSubject.next(this.hardSkills);
-          resolve('Tarjeta añadida correctamente');
+
+      } else {
+
+        this.http.put<OwnerInfo|EducExp|HardSkill|SoftSkill|Projects>(this.dbUrl+'cards/editar/'+url, newCard).subscribe(card => {
+        
+          console.log(card);
+          if (card.type === 'OwnerInfo') cardsContainer = card as OwnerInfo;
+          else {
+            let oldCard:EducExp|HardSkill|SoftSkill|Projects = (cardsContainer as (EducExp|HardSkill|SoftSkill|Projects)[]).find(c => c.id === card.id) as EducExp|HardSkill|SoftSkill|Projects;
+            let oldCardIdx:number = (cardsContainer as (EducExp|HardSkill|SoftSkill|Projects)[]).indexOf(oldCard);
+            (cardsContainer as (EducExp|HardSkill|SoftSkill|Projects)[])[oldCardIdx] = card as EducExp|HardSkill|SoftSkill|Projects; 
+          }
+          cardsSubject.next(cardsContainer);
+          this.alerts.addAlert({type:'success', message:'Tarjeta editada correctamente'});
+
         })
-      });
+
+      }
+
+      return true;
+
+    } catch(e) {
+   
+      this.alerts.addAlert({type:'danger', message:'Ocurrió un ERROR, verifica la sesión'});
+      console.error(e);
+      return false;
+   
     }
   }
 
-  async deleteHardSkill(cardToDelete:HardSkill): Promise<boolean> {
-    return await new Promise(resolve => {
-      this.http.delete<HardSkill>(this.dbUrl + 'hardSkills/' + cardToDelete.id).subscribe(()=>{
-        this.hardSkills = this.hardSkills.filter(card => card !== cardToDelete);
-        this.hardSkillsSubject.next(this.hardSkills);
-        resolve(true);
-      })
-    });
-  }
+  moveCard(movements:MoveObject[]) {
+    try {
 
-  async setSoftSkill(item:SoftSkill, updateFront:boolean):Promise<string> {
-    let cardToEdit:SoftSkill|undefined = this.softSkills.find(card => card.id === item.id);
-    if (cardToEdit) {
-      return await new Promise(resolve => {
-        this.http.put<SoftSkill>(this.dbUrl + 'softSkills/' + item.id, item)
-        .subscribe(()=>{
-          cardToEdit = item;
-          if (updateFront) this.softSkillsSubject.next(this.softSkills);
-          resolve('Información actualizada correctamente');
-        })
+      this.http.put<MoveObject[]>(this.dbUrl+'cards/mover', movements).subscribe(() => {
+
+        this.alerts.addAlert({type:'success', message:'Movimientos realizados correctamente'});
+
       });
-    } else {
-      item.id = this.getHighestIdFrom(this.softSkills) + 1;
-      return await new Promise(resolve => {
-        this.http.post<SoftSkill>(this.dbUrl + 'softSkills', item)
-        .subscribe(()=>{
-          this.softSkills.push(item);
-          if (updateFront) this.softSkillsSubject.next(this.softSkills);
-          resolve('Tarjeta añadida correctamente');
-        })
-      });
+
+    } catch(e) {
+   
+      this.alerts.addAlert({type:'danger', message:'Ocurrió un ERROR, verifica la sesión'});
+      console.error(e);
+   
     }
   }
 
-  async deleteSoftSkill(cardToDelete:SoftSkill): Promise<boolean> {
-    return await new Promise(resolve => {
-      this.http.delete<SoftSkill>(this.dbUrl + 'softSkills/' + cardToDelete.id).subscribe(()=>{
-        this.softSkills = this.softSkills.filter(card => card !== cardToDelete);
-        this.softSkillsSubject.next(this.softSkills);
-        resolve(true);
-      })
-    });
-  }
+  deleteCard(idToDelete:number, type:string) {
+    try {
 
-  async setProject(item:Projects, updateFront:boolean):Promise<string> {
-    let cardToEdit:Projects|undefined = this.projects.find(card => card.id === item.id);
-    if (cardToEdit) {
-      return await new Promise(resolve => {
-        this.http.put<Projects>(this.dbUrl + 'projects/' + item.id, item)
-        .subscribe(()=>{
-          cardToEdit = item;
-          if (updateFront) this.projectsSubject.next(this.projects);
-          resolve('Información actualizada correctamente');
-        })
+      let cardsContainer:(EducExp|HardSkill|SoftSkill|Projects)[];
+      let cardsSubject:Subject<any>;
+      switch (type) {
+
+        case 'Education':
+          cardsContainer = this.education;
+          cardsSubject = this.educationSubject;
+          break;
+        case 'Experience':
+          cardsContainer = this.experiences;
+          cardsSubject = this.experiencesSubject;
+          break;
+        case 'HardSkill':
+          cardsContainer = this.hardSkills;
+          cardsSubject = this.hardSkillsSubject;
+          break;
+        case 'SoftSkill':
+          cardsContainer = this.softSkills;
+          cardsSubject = this.softSkillsSubject;
+          break;
+        case 'Project':
+          cardsContainer = this.projects;
+          cardsSubject = this.projectsSubject;
+          break;
+        default:
+          console.error('ESTÁ INTENTANDO ELIMINAR UNA TARJETA DE TIPO INADECUADO');
+          return;
+
+      }
+
+      this.http.delete<CardDeleted>(this.dbUrl+'cards/borrar/'+idToDelete).subscribe((asd) => {
+        
+        let newContent:(EducExp|HardSkill|SoftSkill|Projects)[] = cardsContainer.filter(card => card.id !== idToDelete);
+        cardsContainer = newContent;
+        let movements:MoveObject[] = [];
+        for (let card in cardsContainer) {
+          movements.push(
+            {
+              cardId: cardsContainer[card].id,
+              newPosition: parseInt(card)
+            }
+          )
+        }
+        this.moveCard(movements);
+        cardsSubject.next(cardsContainer);
+        this.alerts.addAlert({type:'success', message: asd.msg});
+
       });
-    } else {
-      item.id = this.getHighestIdFrom(this.projects) + 1;
-      return await new Promise(resolve => {
-        this.http.post<Projects>(this.dbUrl + 'projects', item)
-        .subscribe(()=>{
-          this.projects.push(item);
-          if (updateFront) this.projectsSubject.next(this.projects);
-          resolve('Tarjeta añadida correctamente');
-        })
-      });
+
+    } catch(e) {
+   
+      this.alerts.addAlert({type:'danger', message:'Ocurrió un ERROR, verifica la sesión'});
+      console.error(e);
+   
     }
-  }
-
-  async deleteProject(cardToDelete:Projects): Promise<boolean> {
-    return await new Promise(resolve => {
-      this.http.delete<Projects>(this.dbUrl + 'projects/' + cardToDelete.id).subscribe(()=>{
-        this.projects = this.projects.filter(card => card !== cardToDelete);
-        this.projectsSubject.next(this.projects);
-        resolve(true);
-      })
-    });
   }
 
 }

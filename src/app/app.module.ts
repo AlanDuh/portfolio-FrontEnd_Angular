@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -25,6 +25,7 @@ import { SoftSkillEditorComponent } from './components/modals/soft-skill-editor/
 import { ProjectsComponent } from './components/sections/projects/projects.component';
 import { ProjectCardComponent } from './components/sections/projects/project-card/project-card.component';
 import { ProjectsEditorComponent } from './components/modals/projects-editor/projects-editor.component';
+import { InterceptorService } from './services/interceptor.service';
 
 @NgModule({
   declarations: [
@@ -53,10 +54,12 @@ import { ProjectsEditorComponent } from './components/modals/projects-editor/pro
     BrowserModule,
     NgbModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [
-    NgbActiveModal
+    NgbActiveModal,
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true }
   ],
   bootstrap: [AppComponent]
 })

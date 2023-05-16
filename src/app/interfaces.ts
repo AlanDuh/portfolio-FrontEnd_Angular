@@ -6,23 +6,24 @@ export interface Alert {
 
 export interface StoredImage {
     id:number,
-    src:string
+    name:string,
+    path:string
 }
 
-export interface StoredString {
-    id:number,
-    content:string
+export interface StoredPoint {
+    description:string,
+    isPositive:boolean
 }
 
-export interface StoredValue {
+export interface StoredSubSkill {
     id:number,
     name:string,
-    value:number
+    val:number
 }
 
 export interface Account {
-    name:string,
-    pass:string
+    username:string,
+    password:string
 }
 
 export interface AdminSettings {
@@ -30,54 +31,57 @@ export interface AdminSettings {
 }
 
 export interface OwnerInfo {
-    banner:StoredImage[],
-    photo:StoredImage|null,
-    title:string,
-    description:string
+    id:number,
+    name:string,
+    idx:number,
+    type:string,
+    description:string,
+    images:StoredImage[],
+    photo:StoredImage
 }
 
 export interface EducExp {
     id:number,
-    concept:string,
-    institutionImage:StoredImage|null,
+    name:string,
+    idx:number,
+    type:string,
     title:string,
     institution:string,
-    date:{
-        type:string,
-        start:string|null,
-        end:string|null
-    },
-    general:string|null
+    institutionImage:StoredImage,
+    date1:null|string,
+    date2:null|string,
+    description:string
 }
 
 export interface HardSkill {
     id:number,
     name:string,
-    value:number,
-    points:{
-        positives:StoredString[],
-        negatives:StoredString[]
-    },
-    background:StoredImage|null
+    idx:number,
+    type:string,
+    val:number,
+    background:StoredImage,
+    points:StoredPoint[]
 }
 
 export interface SoftSkill {
     id:number,
     name:string,
+    idx:number,
+    type:string,
     description:string,
-    subSkills:StoredValue[]
+    subSkills:StoredSubSkill[]
 }
 
 export interface Projects {
     id:number,
     name:string,
+    idx:number,
+    type:string,
     description:string,
-    date:string,
+    date:string|null,
     images:StoredImage[],
-    links:{
-        page:string,
-        gitHub:string
-    }
+    pageLink:string,
+    gitHubLink:string
 }
 
 export interface DataBase {
@@ -88,5 +92,14 @@ export interface DataBase {
     hardSkills:HardSkill[],
     softSkills:SoftSkill[],
     projects:Projects[]
+}
+
+export interface MoveObject {
+    cardId:number,
+    newPosition:number
+}
+
+export interface CardDeleted {
+    msg: string;
 }
 
